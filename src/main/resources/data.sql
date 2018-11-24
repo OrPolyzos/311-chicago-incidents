@@ -1,0 +1,2 @@
+INSERT INTO USERS (USER_ID, EMAIL, FIRST_NAME, LAST_NAME, PASSWORD, ROLE, USERNAME) VALUES (1, 'administrator@gmail.com', 'John', 'Doe', 'a', 'ADMIN', 'a');
+INSERT INTO USERS (USER_ID, EMAIL, FIRST_NAME, LAST_NAME, PASSWORD, ROLE, USERNAME) VALUES (2, 'simpleuser@gmail.com', 'Jane', 'Doe', 's', 'USER', 's');
