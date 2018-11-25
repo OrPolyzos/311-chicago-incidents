@@ -5,7 +5,7 @@
     <#include "common-head.ftl">
 </head>
 <body style="background-image: url(/bg/white-background.jpg);">
-    <nav class="login-navbar navbar navbar-inverse" id="loginNavBar">
+    <nav class="login-nav-bar navbar navbar-inverse" id="loginNavBar">
         <div class="container-fluid">
             <div class="navbar-header"></div>
         </div>
@@ -17,7 +17,7 @@
             <div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-6 col-xs-offset-3">
                 <form class="form-horizontal" action="/login" method="POST" id="loginForm" name="loginForm">
                     <fieldset>
-                        <legend class="bigLegend">Login</legend>
+                        <legend class="login-legend text-center">Login</legend>
                         <div class="form-group">
                             <label for="username">Username</label>
                             <@spring.bind "loginForm.username"/>

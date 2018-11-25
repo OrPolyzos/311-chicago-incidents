@@ -8,6 +8,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import static com.uoa.di.csr.controller.user.ServiceRequestController.SERVICE_REQUESTS_URI;
+
 @Component
 public class SecurityHelper {
 
@@ -18,11 +20,11 @@ public class SecurityHelper {
 
     public static final String ADMIN_BASE_URI = "/admin";
     public static final String ADMIN_ROLE = "ADMIN";
-    public static final String ADMIN_SUCCESS_URL = "/admin/dashboard";
+    public static final String ADMIN_SUCCESS_URL = ADMIN_BASE_URI + SERVICE_REQUESTS_URI;
 
     public static final String USER_BASE_URI = "/user";
     public static final String USER_ROLE = "USER";
-    public static final String USER_SUCCESS_URL = "/user/dashboard";
+    public static final String USER_SUCCESS_URL = USER_BASE_URI + SERVICE_REQUESTS_URI;
 
     @Autowired
     private UserService userService;
