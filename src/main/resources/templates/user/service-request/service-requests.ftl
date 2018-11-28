@@ -4,12 +4,11 @@
     <title>Service Requests</title>
      <#include "../../common-head.ftl">
     <#include "../../datatables-bundle.ftl">
-    <script src="/scripts/user/service-request/serviceRequestsDataTable.js"></script>
-    <script src="/scripts/user/service-request/showCreateModal.js"></script>
+    <script src="/scripts/user/service-request/service-requests-data-table.js"></script>
+    <script src="/scripts/user/service-request/show-create-service-request-modal.js"></script>
 </head>
 <body>
 <#include "../navbar.ftl">
-<button data-toggle="modal" data-target="#create-service-request-modal" class="btn btn-success floating-button-right">+</button>
 <#include "create-service-request-modal.ftl"/>
 <div class="container col-lg-12 col-md-12 col-sm-12 co-xs-12">
         <table id="resultsTable" class="table table-responsive table-striped table-hover custom-data-table">
@@ -57,18 +56,18 @@
                 <#if serviceRequests??>
                     <#list serviceRequests as serviceRequest>
                         <tr>
-                            <td class="text-center">${serviceRequest.id}</td>
-                            <td class="text-center">${serviceRequest.serviceRequestNumber}</td>
-                            <td class="text-center">${serviceRequest.serviceRequestType}</td>
-                            <td class="text-center">${serviceRequest.zipCode}</td>
-                            <td class="text-center">${serviceRequest.coordinateX}</td>
-                            <td class="text-center">${serviceRequest.coordinateY}</td>
-                            <td class="text-center">${serviceRequest.ward}</td>
-                            <td class="text-center">${serviceRequest.policeDistrict}</td>
-                            <td class="text-center">${serviceRequest.communityArea}</td>
-                            <td class="text-center">${serviceRequest.longitude}</td>
-                            <td class="text-center">${serviceRequest.latitude}</td>
-                            <td class="text-center">${serviceRequest.location}</td>
+                            <td class="text-center">${serviceRequest.id!""}</td>
+                            <td class="text-center">${serviceRequest.serviceRequestNumber!""}</td>
+                            <td class="text-center">${serviceRequest.serviceRequestType!""}</td>
+                            <td class="text-center">${serviceRequest.zipCode!""}</td>
+                            <td class="text-center">${serviceRequest.coordinateX!""}</td>
+                            <td class="text-center">${serviceRequest.coordinateY!""}</td>
+                            <td class="text-center">${serviceRequest.ward!""}</td>
+                            <td class="text-center">${serviceRequest.policeDistrict!""}</td>
+                            <td class="text-center">${serviceRequest.communityArea!""}</td>
+                            <td class="text-center">${serviceRequest.longitude!""}</td>
+                            <td class="text-center">${serviceRequest.latitude!""}</td>
+                            <td class="text-center">${serviceRequest.location!""}</td>
                         </tr>
                     </#list>
                 </#if>

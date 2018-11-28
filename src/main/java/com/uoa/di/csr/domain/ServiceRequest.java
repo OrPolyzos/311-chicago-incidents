@@ -1,25 +1,32 @@
 package com.uoa.di.csr.domain;
 
+import javax.annotation.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-//@Table(name = "service-requests")
+@Table(name = "service_requests")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class ServiceRequest {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "service_request_id")
     private Long id;
 
-    @Column(name = "service_request_number", unique = true)
+    @Column(name = "service_request_number")
     private String serviceRequestNumber;
 
     @Column(name = "service_request_type")
-    private String serviceRequestType;
+    private ServiceRequestType serviceRequestType;
 
     @Column(name = "zip_code")
     private Long zipCode;
@@ -68,11 +75,11 @@ public class ServiceRequest {
         this.serviceRequestNumber = serviceRequestNumber;
     }
 
-    public String getServiceRequestType() {
+    public ServiceRequestType getServiceRequestType() {
         return serviceRequestType;
     }
 
-    public void setServiceRequestType(String serviceRequestType) {
+    public void setServiceRequestType(ServiceRequestType serviceRequestType) {
         this.serviceRequestType = serviceRequestType;
     }
 

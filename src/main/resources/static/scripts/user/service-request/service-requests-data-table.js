@@ -55,11 +55,15 @@ let customDatatables = function () {
                     },
                     {
                         targets: 9,
-                        orderable: true
+                        orderable: false
                     },
                     {
                         targets: 10,
-                        orderable: true
+                        orderable: false
+                    },
+                    {
+                        targets: 11,
+                        orderable: false
                     }
                 ]
             });
