@@ -83,7 +83,8 @@ begin
 			from chicago_service_requests.service_requests as inner_table
 			where inner_table.zip_code = outer_table.zip_code and inner_table.creation_date_time = outer_table.creation_date_time
 			group by inner_table.sr_type
-			order by count(*) desc limit 1))
+			order by count(*) desc limit 1)
+	  )
 	loop
 		out_zip_code := sr_record.zip_code;
 		out_sr_type := sr_record.sr_type;
@@ -98,3 +99,32 @@ drop function chicago_service_requests.get_most_common_type_per_zip_code_for_day
 
 --example
 select * from chicago_service_requests.get_most_common_type_per_zip_code_for_day('2011-01-02')
+
+-- Stored function #4
+CREATE OR REPLACE FUNCTION chicago_service_requests.get_avg_completion_time_per_type_in_range
+(in input_start_date timestamp without time zone, in input_end_date timestamp without time zone)
+returns table(out_sr_type varchar, out_sr_avg float8)
+AS $$
+declare
+	sr_record record;
+begin
+	for sr_record in (
+		select sr_type, avg(extract(epoch from (completion_date_time::timestamp - creation_date_time::timestamp))) as sr_avg
+		from chicago_service_requests.service_requests
+		where completion_date_time notnull and creation_date_time between '2011-01-02' and now()::timestamp without time zone
+		group by sr_type
+	  )
+	loop
+		out_sr_type := sr_record.sr_type;
+		out_sr_avg := sr_record.sr_avg;
+	return next;
+	end loop;
+END; $$
+LANGUAGE plpgsql;
+
+--drop
+drop function chicago_service_requests.get_avg_completion_time_per_type_in_range(timestamp without time zone, timestamp without time zone)
+
+--example
+select * from chicago_service_requests.get_avg_completion_time_per_type_in_range('2011-01-02', now()::timestamp without time zone)
+

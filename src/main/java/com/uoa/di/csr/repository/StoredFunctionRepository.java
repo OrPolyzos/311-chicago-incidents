@@ -1,6 +1,7 @@
 package com.uoa.di.csr.repository;
 
 import com.uoa.di.csr.domain.ServiceRequestType;
+import com.uoa.di.csr.model.sf_response.AvgCompletionTimePerServiceRequestType;
 import com.uoa.di.csr.model.sf_response.CountPerDay;
 import com.uoa.di.csr.model.sf_response.CountPerServiceRequestType;
 import com.uoa.di.csr.model.sf_response.MostCommonServiceRequestPerZipCode;
@@ -15,4 +16,6 @@ public interface StoredFunctionRepository {
     List<CountPerDay> getTotalRequestsPerDayWithTypeInRange(ServiceRequestType serviceRequestType, LocalDateTime startDateTime, LocalDateTime endDateTime);
 
     List<MostCommonServiceRequestPerZipCode> getMostCommonRequestTypesPerZipCodeForDay(LocalDateTime localDateTime);
+
+    List<AvgCompletionTimePerServiceRequestType> getAvgCompletionTimePerTypeInRange(LocalDateTime startDateTime, LocalDateTime endDateTime);
 }

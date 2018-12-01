@@ -1,6 +1,7 @@
 package com.uoa.di.csr.repository;
 
 import com.uoa.di.csr.domain.ServiceRequestType;
+import com.uoa.di.csr.model.sf_response.AvgCompletionTimePerServiceRequestType;
 import com.uoa.di.csr.model.sf_response.CountPerDay;
 import com.uoa.di.csr.model.sf_response.CountPerServiceRequestType;
 import com.uoa.di.csr.model.sf_response.MostCommonServiceRequestPerZipCode;
@@ -45,5 +46,15 @@ public class StoredFunctionRepositoryImpl implements StoredFunctionRepository {
                 .registerStoredProcedureParameter(1, LocalDateTime.class, ParameterMode.IN)
                 .setParameter(1, localDateTime).getResultList();
         return resultList.stream().map(objArr -> new MostCommonServiceRequestPerZipCode(objArr[0], objArr[1], objArr[2])).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<AvgCompletionTimePerServiceRequestType> getAvgCompletionTimePerTypeInRange(LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        List<Object[]> resultList = entityManager.createStoredProcedureQuery("chicago_service_requests.get_avg_completion_time_per_type_in_range")
+                .registerStoredProcedureParameter(1, LocalDateTime.class, ParameterMode.IN)
+                .registerStoredProcedureParameter(2, LocalDateTime.class, ParameterMode.IN)
+                .setParameter(1, startDateTime)
+                .setParameter(2, endDateTime).getResultList();
+        return resultList.stream().map(objArr -> new AvgCompletionTimePerServiceRequestType(objArr[0], objArr[1])).collect(Collectors.toList());
     }
 }

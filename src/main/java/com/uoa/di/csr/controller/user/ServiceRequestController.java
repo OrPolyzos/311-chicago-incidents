@@ -22,11 +22,13 @@ public class ServiceRequestController {
     public static final String STORED_FUNCTION_ONE_URI = "/sf/1";
     public static final String STORED_FUNCTION_TWO_URI = "/sf/2";
     public static final String STORED_FUNCTION_THREE_URI = "/sf/3";
+    public static final String STORED_FUNCTION_FOUR_URI = "/sf/4";
 
     private static final String SERVICE_REQUESTS_VIEW = "user/service-request/service-requests";
     public static final String STORED_FUNCTION_ONE_VIEW = "user/stored-functions/one";
     public static final String STORED_FUNCTION_TWO_VIEW = "user/stored-functions/two";
     public static final String STORED_FUNCTION_THREE_VIEW = "user/stored-functions/three";
+    public static final String STORED_FUNCTION_FOUR_VIEW = "user/stored-functions/four";
 
     @Autowired
     private ServiceRequestRepository serviceRequestRepository;
@@ -54,5 +56,11 @@ public class ServiceRequestController {
     public String getStoredFunctionThreeView(Model model) {
         model.addAttribute("results", serviceRequestRepository.getMostCommonRequestTypesPerZipCodeForDay(LocalDateTime.of(2011, Month.JANUARY, 1, 0, 0, 0)));
         return STORED_FUNCTION_THREE_VIEW;
+    }
+
+    @GetMapping(STORED_FUNCTION_FOUR_URI)
+    public String getStoredFunctionFourView(Model model) {
+        model.addAttribute("results", serviceRequestRepository.getAvgCompletionTimePerTypeInRange(LocalDateTime.now().minusMonths(100), LocalDateTime.now()));
+        return STORED_FUNCTION_FOUR_VIEW;
     }
 }
