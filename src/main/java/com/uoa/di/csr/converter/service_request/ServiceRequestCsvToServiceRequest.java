@@ -1,4 +1,4 @@
-package com.uoa.di.csr.converter;
+package com.uoa.di.csr.converter.service_request;
 
 import com.uoa.di.csr.domain.ServiceRequest;
 import com.uoa.di.csr.domain.ServiceRequestType;
@@ -6,7 +6,6 @@ import com.uoa.di.csr.parser.model.ServiceRequestCsv;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.function.Function;
@@ -21,11 +20,11 @@ public class ServiceRequestCsvToServiceRequest implements Function<ServiceReques
         ServiceRequest serviceRequest = new ServiceRequest();
         serviceRequest.setNumber(serviceRequestCsv.getServiceRequestNumber());
         serviceRequest.setType(ServiceRequestType.reverseValue(serviceRequestCsv.getServiceRequestType()));
-        serviceRequest.setCreationDateTime(LocalDate.from(LocalDateTime.parse(serviceRequestCsv.getCreationDateTime())));
+        serviceRequest.setCreationDateTime(LocalDateTime.parse(serviceRequestCsv.getCreationDateTime()));
         serviceRequest.setStatus(serviceRequestCsv.getStatus());
         serviceRequest.setStreetAddress(serviceRequestCsv.getStreetAddress());
         //TODO REVISIT FOR Nullable handling - Maybe set default value to avoid nulls in database
-        serviceRequest.setCompletionDateTime(mapToOptional(serviceRequestCsv.getCompletionDateTime()).isPresent() ? LocalDate.from(LocalDateTime.parse(serviceRequestCsv.getCompletionDateTime())) : null);
+        serviceRequest.setCompletionDateTime(mapToOptional(serviceRequestCsv.getCompletionDateTime()).isPresent() ? LocalDateTime.parse(serviceRequestCsv.getCompletionDateTime()) : null);
         serviceRequest.setZipCode(mapToOptional(serviceRequestCsv.getZipCode()).isPresent() ? Long.valueOf(serviceRequestCsv.getZipCode()) : null);
         serviceRequest.setCoordinateX(mapToOptional(serviceRequestCsv.getCoordinateX()).isPresent() ? new BigDecimal(serviceRequestCsv.getCoordinateX()) : null);
         serviceRequest.setCoordinateY(mapToOptional(serviceRequestCsv.getCoordinateY()).isPresent() ? new BigDecimal(serviceRequestCsv.getCoordinateY()) : null);

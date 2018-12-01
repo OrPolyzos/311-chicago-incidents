@@ -2,7 +2,7 @@ package com.uoa.di.csr.parser.model;
 
 import com.opencsv.bean.CsvBindByName;
 
-public class ServiceRequestCsv extends CsvBean {
+public class ServiceRequestCsv {
 
     @CsvBindByName(column = "Creation Date")
     private String creationDateTime;

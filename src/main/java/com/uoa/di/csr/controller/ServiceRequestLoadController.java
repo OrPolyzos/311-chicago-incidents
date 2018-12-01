@@ -3,7 +3,7 @@ package com.uoa.di.csr.controller;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.bean.HeaderColumnNameMappingStrategy;
-import com.uoa.di.csr.converter.ServiceRequestCsvToServiceRequest;
+import com.uoa.di.csr.converter.service_request.ServiceRequestCsvToServiceRequest;
 import com.uoa.di.csr.parser.model.ServiceRequestCsv;
 import com.uoa.di.csr.repository.ServiceRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;

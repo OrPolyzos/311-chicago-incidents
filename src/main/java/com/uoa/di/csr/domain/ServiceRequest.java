@@ -7,7 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "service_requests")
@@ -19,10 +19,10 @@ public class ServiceRequest {
     private Long id;
 
     @Column(name = "creation_date_time")
-    private LocalDate creationDateTime;
+    private LocalDateTime creationDateTime;
 
     @Column(name = "completion_date_time")
-    private LocalDate completionDateTime;
+    private LocalDateTime completionDateTime;
 
     @Column(name = "sr_number")
     private String number;
@@ -73,19 +73,19 @@ public class ServiceRequest {
         this.id = id;
     }
 
-    public LocalDate getCreationDateTime() {
+    public LocalDateTime getCreationDateTime() {
         return creationDateTime;
     }
 
-    public void setCreationDateTime(LocalDate creationDateTime) {
+    public void setCreationDateTime(LocalDateTime creationDateTime) {
         this.creationDateTime = creationDateTime;
     }
 
-    public LocalDate getCompletionDateTime() {
+    public LocalDateTime getCompletionDateTime() {
         return completionDateTime;
     }
 
-    public void setCompletionDateTime(LocalDate completionDateTime) {
+    public void setCompletionDateTime(LocalDateTime completionDateTime) {
         this.completionDateTime = completionDateTime;
     }
 

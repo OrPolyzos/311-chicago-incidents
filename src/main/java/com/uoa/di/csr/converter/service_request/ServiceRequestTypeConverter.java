@@ -1,4 +1,6 @@
-package com.uoa.di.csr.domain;
+package com.uoa.di.csr.converter.service_request;
+
+import com.uoa.di.csr.domain.ServiceRequestType;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

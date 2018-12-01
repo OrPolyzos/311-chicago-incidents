@@ -5,10 +5,10 @@ SELECT FROM chicago_service_requests.users;
 
 -- Service Requests
 -- Stored Procedures/Functions
--- SP1
-CREATE OR REPLACE FUNCTION get_total_requests_per_type_in_range
-(startDate timestamp,
-endDate timestamp)
+-- Stored Function _ 1
+CREATE OR REPLACE FUNCTION chicago_service_requests.get_total_requests_per_type_in_range
+(in startDate timestamp without time zone,
+in endDate timestamp without time zone)
 returns table(r_sr_type varchar, r_sr_count int8)
 AS $$
 declare

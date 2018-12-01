@@ -8,7 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ServiceRequestRepository extends CrudRepository<ServiceRequest, Long>, ServiceRequestProcedureRepository {
+public interface ServiceRequestRepository extends CrudRepository<ServiceRequest, Long>, StoredFunctionRepository {
 
     Page<ServiceRequest> findAll(Pageable pageable);
 
