@@ -56,9 +56,9 @@
                 <#if serviceRequests??>
                     <#list serviceRequests as serviceRequest>
                         <tr>
-                            <td class="text-center">${serviceRequest.id!""}</td>
-                            <td class="text-center">${serviceRequest.serviceRequestNumber!""}</td>
-                            <td class="text-center">${serviceRequest.serviceRequestType!""}</td>
+                            <td class="text-center">${serviceRequest.srId!""}</td>
+                            <td class="text-center">${serviceRequest.srNumber!""}</td>
+                            <td class="text-center">${serviceRequest.srType!""}</td>
                             <td class="text-center">${serviceRequest.zipCode!""}</td>
                             <td class="text-center">${serviceRequest.coordinateX!""}</td>
                             <td class="text-center">${serviceRequest.coordinateY!""}</td>

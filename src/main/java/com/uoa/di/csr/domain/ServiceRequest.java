@@ -16,7 +16,7 @@ public class ServiceRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "service_request_id")
-    private Long id;
+    private Long srId;
 
     @Column(name = "creation_date_time")
     private LocalDateTime creationDateTime;
@@ -25,13 +25,13 @@ public class ServiceRequest {
     private LocalDateTime completionDateTime;
 
     @Column(name = "sr_number")
-    private String number;
+    private String srNumber;
 
     @Column(name = "sr_type")
-    private ServiceRequestType type;
+    private ServiceRequestType srType;
 
     @Column(name = "sr_status")
-    private String status;
+    private String srStatus;
 
     @Column(name = "street_address")
     private String streetAddress;
@@ -61,16 +61,16 @@ public class ServiceRequest {
     @Column(name = "latitude")
     private Double latitude;
 
-    //TODO Change this possibly to JSONB type for Postgres
+    //TODO Change this possibly to JSONB srType for Postgres
     @Column(name = "location")
     private String location;
 
-    public Long getId() {
-        return id;
+    public Long getSrId() {
+        return srId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setSrId(Long srId) {
+        this.srId = srId;
     }
 
     public LocalDateTime getCreationDateTime() {
@@ -89,28 +89,28 @@ public class ServiceRequest {
         this.completionDateTime = completionDateTime;
     }
 
-    public String getNumber() {
-        return number;
+    public String getSrNumber() {
+        return srNumber;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public void setSrNumber(String srNumber) {
+        this.srNumber = srNumber;
     }
 
-    public ServiceRequestType getType() {
-        return type;
+    public ServiceRequestType getSrType() {
+        return srType;
     }
 
-    public void setType(ServiceRequestType type) {
-        this.type = type;
+    public void setSrType(ServiceRequestType srType) {
+        this.srType = srType;
     }
 
-    public String getStatus() {
-        return status;
+    public String getSrStatus() {
+        return srStatus;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setSrStatus(String srStatus) {
+        this.srStatus = srStatus;
     }
 
     public String getStreetAddress() {

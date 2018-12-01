@@ -18,10 +18,10 @@ public class ServiceRequestCsvToServiceRequest implements Function<ServiceReques
     @Override
     public ServiceRequest apply(ServiceRequestCsv serviceRequestCsv) {
         ServiceRequest serviceRequest = new ServiceRequest();
-        serviceRequest.setNumber(serviceRequestCsv.getServiceRequestNumber());
-        serviceRequest.setType(ServiceRequestType.reverseValue(serviceRequestCsv.getServiceRequestType()));
+        serviceRequest.setSrNumber(serviceRequestCsv.getServiceRequestNumber());
+        serviceRequest.setSrType(ServiceRequestType.reverseValue(serviceRequestCsv.getServiceRequestType()));
         serviceRequest.setCreationDateTime(LocalDateTime.parse(serviceRequestCsv.getCreationDateTime()));
-        serviceRequest.setStatus(serviceRequestCsv.getStatus());
+        serviceRequest.setSrStatus(serviceRequestCsv.getStatus());
         serviceRequest.setStreetAddress(serviceRequestCsv.getStreetAddress());
         //TODO REVISIT FOR Nullable handling - Maybe set default value to avoid nulls in database
         serviceRequest.setCompletionDateTime(mapToOptional(serviceRequestCsv.getCompletionDateTime()).isPresent() ? LocalDateTime.parse(serviceRequestCsv.getCompletionDateTime()) : null);
