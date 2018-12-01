@@ -4,14 +4,24 @@ import com.uoa.di.csr.domain.ServiceRequestType;
 
 import java.math.BigInteger;
 
-public class CountPerServiceRequest {
+public class MostCommonServiceRequestPerZipCode {
 
+    private BigInteger zipCode;
     private ServiceRequestType serviceRequestType;
     private BigInteger count;
 
-    public CountPerServiceRequest(Object serviceRequestType, Object count) {
+    public MostCommonServiceRequestPerZipCode(Object zipCode, Object serviceRequestType, Object count) {
+        this.zipCode = (BigInteger) zipCode;
         this.serviceRequestType = ServiceRequestType.reverseValue((String) serviceRequestType);
         this.count = (BigInteger) count;
+    }
+
+    public BigInteger getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(BigInteger zipCode) {
+        this.zipCode = zipCode;
     }
 
     public ServiceRequestType getServiceRequestType() {

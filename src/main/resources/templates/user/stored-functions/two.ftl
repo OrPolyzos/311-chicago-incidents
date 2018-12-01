@@ -1,7 +1,7 @@
 <#import "/spring.ftl" as spring/>
 <html>
 <head>
-    <title>Stored Function One</title>
+    <title>Stored Function Two</title>
      <#include "../../common-head.ftl">
     <#include "../../datatables-bundle.ftl">
     <script src="/scripts/user/stored-functions/one/sf-one-data-table.js"></script>
@@ -13,7 +13,7 @@
         <thead>
         <tr>
             <th class="text-center">
-                Service Request Type
+                Creation Day
             </th>
             <th class="text-center">
                 Count
@@ -24,7 +24,7 @@
         <#if results??>
             <#list results as result>
                 <tr>
-                    <td class="text-center">${result.serviceRequestType.value}</td>
+                    <td class="text-center">${result.day}</td>
                     <td class="text-center">${result.count?c}</td>
                 </tr>
             </#list>
