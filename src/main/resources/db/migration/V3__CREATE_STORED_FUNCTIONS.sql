@@ -136,7 +136,7 @@ begin
   for sr_record in (
                    select sr_type, count(*) as sr_count from chicago_service_requests.service_requests
                    where input_date = creation_date_time
-                     and ST_Contains(ST_AsText(ST_Envelope(('POLYGON((' || input_min_x || ' ' || input_min_y || ', ' || input_min_x || ' ' || input_max_y || ', ' ||input_max_x || ' ' || input_max_y || ', ' || input_max_x || ' ' || input_min_y || ', ' || input_min_x || ' ' || input_min_y || '))'))), ST_MakePoint(longitude,latitude))
+                     and public.ST_Contains(public.ST_AsText(public.ST_Envelope(('POLYGON((' || input_min_x || ' ' || input_min_y || ', ' || input_min_x || ' ' || input_max_y || ', ' ||input_max_x || ' ' || input_max_y || ', ' || input_max_x || ' ' || input_min_y || ', ' || input_min_x || ' ' || input_min_y || '))'))), public.ST_MakePoint(longitude,latitude))
                    group by sr_type
                    order by sr_count desc
                    limit 1)
