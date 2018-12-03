@@ -68,7 +68,7 @@ public class ServiceRequestController {
 
     @GetMapping(STORED_FUNCTION_FIVE_URI)
     public String getStoredFunctionFiveView(Model model) {
-        model.addAttribute("results", serviceRequestRepository.getMostCommonRequestInBoundingBoxForDay(35.910956d, -90.655866d, 45.925597d, -85.659015d, LocalDateTime.of(2011, Month.JANUARY, 1, 0, 0, 0)));
+        model.addAttribute("results", serviceRequestRepository.getMostCommonRequestInBoundingBoxForDay(35.910956d, -90.655866d, 45.925597d, -85.659015d, LocalDateTime.of(2011, Month.JANUARY, 2, 0, 0, 0)));
         return STORED_FUNCTION_FIVE_VIEW;
     }
 }
