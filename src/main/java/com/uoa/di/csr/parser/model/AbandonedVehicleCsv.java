@@ -1,24 +1,20 @@
-package com.uoa.di.csr.domain;
+package com.uoa.di.csr.parser.model;
 
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
+import com.opencsv.bean.CsvBindByName;
 
-@Entity(name = "abandoned_vehicle_requests")
-@DiscriminatorValue(value = "AbandonedVehicleRequest")
-public class AbandonedVehicleRequest extends ServiceRequest {
+public class AbandonedVehicleCsv extends ServiceRequestCsv {
 
-    @Column(name = "licence_plate")
+    @CsvBindByName(column = "License Plate")
     private String licensePlate;
 
-    @Column(name = "vehicle_make_model")
+    @CsvBindByName(column = "Vehicle Make/Model")
     private String vehicleMakeModel;
 
-    @Column(name = "vehicle_color")
+    @CsvBindByName(column = "Vehicle color")
     private String vehicleColor;
 
-    @Column(name = "days_reported_as_parked")
-    private Integer howManyDaysReportedAsParked;
+    @CsvBindByName(column = "How Many Days Has the Vehicle Been Reported as Parked?")
+    private String howManyDaysReportedAsParked;
 
     public String getLicensePlate() {
         return licensePlate;
@@ -44,11 +40,11 @@ public class AbandonedVehicleRequest extends ServiceRequest {
         this.vehicleColor = vehicleColor;
     }
 
-    public Integer getHowManyDaysReportedAsParked() {
+    public String getHowManyDaysReportedAsParked() {
         return howManyDaysReportedAsParked;
     }
 
-    public void setHowManyDaysReportedAsParked(Integer howManyDaysReportedAsParked) {
+    public void setHowManyDaysReportedAsParked(String howManyDaysReportedAsParked) {
         this.howManyDaysReportedAsParked = howManyDaysReportedAsParked;
     }
 }

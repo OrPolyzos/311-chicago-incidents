@@ -3,6 +3,7 @@ package com.uoa.di.csr.repository;
 import com.uoa.di.csr.domain.ServiceRequestType;
 import com.uoa.di.csr.model.sf_response.AvgCompletionTimePerServiceRequestType;
 import com.uoa.di.csr.model.sf_response.CountPerDay;
+import com.uoa.di.csr.model.sf_response.CountPerLicencePlate;
 import com.uoa.di.csr.model.sf_response.CountPerServiceRequestType;
 import com.uoa.di.csr.model.sf_response.MostCommonServiceRequestPerZipCode;
 
@@ -21,4 +22,6 @@ public interface StoredFunctionRepository {
 
     //TODO maybe change to CountPerServiceRequestType instead of list, as it will (most possibly?) never return more than 1 result
     List<CountPerServiceRequestType> getMostCommonRequestInBoundingBoxForDay(double minX, double minY, double maxX, double maxY, LocalDateTime localDateTime);
+
+    List<CountPerLicencePlate> getLicencePlatesInvolvedInMoreThanOneRequests();
 }

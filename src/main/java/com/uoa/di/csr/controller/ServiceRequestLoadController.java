@@ -3,8 +3,11 @@ package com.uoa.di.csr.controller;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.bean.HeaderColumnNameMappingStrategy;
+import com.uoa.di.csr.converter.service_request.AbandonedVehicleCsvToAbandonedVehicleRequest;
 import com.uoa.di.csr.converter.service_request.ServiceRequestCsvToServiceRequest;
+import com.uoa.di.csr.parser.model.AbandonedVehicleCsv;
 import com.uoa.di.csr.parser.model.ServiceRequestCsv;
+import com.uoa.di.csr.repository.AbandonedVehicleRequestRepository;
 import com.uoa.di.csr.repository.ServiceRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,51 +43,63 @@ public class ServiceRequestLoadController {
     private ServiceRequestRepository serviceRequestRepository;
 
     @Autowired
+    private AbandonedVehicleRequestRepository abandonedVehicleRequestRepository;
+
+    @Autowired
     private ServiceRequestCsvToServiceRequest serviceRequestCsvToServiceRequest;
+
+    @Autowired
+    private AbandonedVehicleCsvToAbandonedVehicleRequest abandonedVehicleCsvToAbandonedVehicleRequest;
 
 
     @GetMapping("load-service-requests/{csvFileName}")
     public ResponseEntity loadServiceRequests(@PathVariable("csvFileName") String csvFileName) {
-        //TODO More to be added
-        switch (csvFileName) {
-            case SERVICE_REQUESTS_ABANDONED_VEHICLES:
-                break;
-            default: //alley-lights-out, street-lights-all-out, street-lights-one-out
-                return parseAndSaveServiceRequests(csvFileName);
-        }
-        return null;
-    }
-
-    @SuppressWarnings("unchecked")
-    private ResponseEntity parseAndSaveServiceRequests(String csvFileName) {
         if (RUNNING_ALREADY) {
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
         }
-        RUNNING_ALREADY = Boolean.TRUE;
         new Thread(() -> {
-            Path path = new File(csvBaseFolder.concat(csvFileName).concat(CSV_FILE_EXTENSION)).toPath();
-            BufferedReader bufferedReader = null;
             try {
-                bufferedReader = Files.newBufferedReader(path, StandardCharsets.UTF_8);
-            } catch (IOException e) {
-                e.printStackTrace();
+                //TODO ALL DISTINCT TYPES SHOULD BE ADDED
+                switch (csvFileName) {
+                    case SERVICE_REQUESTS_ABANDONED_VEHICLES:
+                        List<AbandonedVehicleCsv> abandonedVehicleCsvList = parseAndSaveServiceRequests(csvFileName, AbandonedVehicleCsv.class).parse();
+                        abandonedVehicleCsvList
+                                .stream()
+                                .map(abandonedVehicleCsv -> abandonedVehicleCsvToAbandonedVehicleRequest.apply(abandonedVehicleCsv))
+                                .forEach(e -> {
+                                    serviceRequestRepository.save(e);
+                                });
+
+                        break;
+                    default: //alley-lights-out, street-lights-all-out, street-lights-one-out
+                        List<ServiceRequestCsv> serviceRequestCsvList = parseAndSaveServiceRequests(csvFileName, ServiceRequestCsv.class).parse();
+                        serviceRequestCsvList
+                                .stream()
+                                .map(serviceRequestCsv -> serviceRequestCsvToServiceRequest.apply(serviceRequestCsv))
+                                .forEach(serviceRequestRepository::save);
+                }
+            } finally {
+                RUNNING_ALREADY = Boolean.FALSE;
             }
-
-            HeaderColumnNameMappingStrategy<ServiceRequestCsv> strategy = new HeaderColumnNameMappingStrategy<>();
-            strategy.setType(ServiceRequestCsv.class);
-            CsvToBean csvToBean = new CsvToBeanBuilder(Objects.requireNonNull(bufferedReader))
-                    .withType(ServiceRequestCsv.class)
-                    .withMappingStrategy(strategy)
-                    .withIgnoreLeadingWhiteSpace(true)
-                    .build();
-            List<ServiceRequestCsv> serviceRequestCsvList = csvToBean.parse();
-
-            serviceRequestCsvList
-                    .stream()
-                    .map(serviceRequestCsv -> serviceRequestCsvToServiceRequest.apply(serviceRequestCsv))
-                    .forEach(serviceRequestRepository::save);
-            RUNNING_ALREADY = Boolean.FALSE;
         }).start();
         return ResponseEntity.ok().build();
+    }
+
+    @SuppressWarnings("unchecked")
+    private CsvToBean parseAndSaveServiceRequests(String csvFileName, Class csvClass) {
+        Path path = new File(csvBaseFolder.concat(csvFileName).concat(CSV_FILE_EXTENSION)).toPath();
+        BufferedReader bufferedReader = null;
+        try {
+            bufferedReader = Files.newBufferedReader(path, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        HeaderColumnNameMappingStrategy<ServiceRequestCsv> strategy = new HeaderColumnNameMappingStrategy<>();
+        strategy.setType(csvClass);
+        return new CsvToBeanBuilder(Objects.requireNonNull(bufferedReader))
+                .withType(csvClass)
+                .withMappingStrategy(strategy)
+                .withIgnoreLeadingWhiteSpace(true)
+                .build();
     }
 }

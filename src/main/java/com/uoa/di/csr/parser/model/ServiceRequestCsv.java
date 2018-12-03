@@ -5,49 +5,49 @@ import com.opencsv.bean.CsvBindByName;
 public class ServiceRequestCsv {
 
     @CsvBindByName(column = "Creation Date")
-    private String creationDateTime;
+    protected String creationDateTime;
 
     @CsvBindByName(column = "Completion Date")
-    private String completionDateTime;
+    protected String completionDateTime;
 
     @CsvBindByName(column = "Status")
-    private String status;
+    protected String status;
 
     @CsvBindByName(column = "Service Request Number")
-    private String serviceRequestNumber;
+    protected String serviceRequestNumber;
 
     @CsvBindByName(column = "Type of Service Request")
-    private String serviceRequestType;
+    protected String serviceRequestType;
 
     @CsvBindByName(column = "Street Address")
-    private String streetAddress;
+    protected String streetAddress;
 
     @CsvBindByName(column = "ZIP Code")
-    private String zipCode;
+    protected String zipCode;
 
     @CsvBindByName(column = "X Coordinate")
-    private String coordinateX;
+    protected String coordinateX;
 
     @CsvBindByName(column = "Y Coordinate")
-    private String coordinateY;
+    protected String coordinateY;
 
     @CsvBindByName(column = "Ward")
-    private String ward;
+    protected String ward;
 
     @CsvBindByName(column = "Police District")
-    private String policeDistrict;
+    protected String policeDistrict;
 
     @CsvBindByName(column = "Community Area")
-    private String communityArea;
+    protected String communityArea;
 
     @CsvBindByName(column = "Latitude")
-    private String longitude;
+    protected String longitude;
 
     @CsvBindByName(column = "Longitude")
-    private String latitude;
+    protected String latitude;
 
     @CsvBindByName(column = "Location")
-    private String location;
+    protected String location;
 
     public String getCreationDateTime() {
         return creationDateTime;

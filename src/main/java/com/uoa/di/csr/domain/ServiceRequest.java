@@ -5,64 +5,66 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "service_requests")
+@Entity(name = "service_requests")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class ServiceRequest {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "service_request_id")
-    private Long srId;
+    protected Long srId;
 
     @Column(name = "creation_date_time")
-    private LocalDateTime creationDateTime;
+    protected LocalDateTime creationDateTime;
 
     @Column(name = "completion_date_time")
-    private LocalDateTime completionDateTime;
+    protected LocalDateTime completionDateTime;
 
     @Column(name = "sr_number")
-    private String srNumber;
+    protected String srNumber;
 
     @Column(name = "sr_type")
-    private ServiceRequestType srType;
+    protected ServiceRequestType srType;
 
     @Column(name = "sr_status")
-    private String srStatus;
+    protected String srStatus;
 
     @Column(name = "street_address")
-    private String streetAddress;
+    protected String streetAddress;
 
     @Column(name = "zip_code")
-    private Long zipCode;
+    protected Long zipCode;
 
     @Column(name = "coordinate_x")
-    private Double coordinateX;
+    protected Double coordinateX;
 
     @Column(name = "coordinate_y")
-    private Double coordinateY;
+    protected Double coordinateY;
 
     @Column(name = "ward")
-    private Integer ward;
+    protected Integer ward;
 
     @Column(name = "police_district")
-    private Integer policeDistrict;
+    protected Integer policeDistrict;
 
     @Column(name = "community_area")
-    private Integer communityArea;
+    protected Integer communityArea;
 
     @Column(name = "longitude")
-    private Double longitude;
+    protected Double longitude;
 
     @Column(name = "latitude")
-    private Double latitude;
+    protected Double latitude;
 
     //TODO Change this possibly to JSONB srType for Postgres
     @Column(name = "location")
-    private String location;
+    protected String location;
 
     public Long getSrId() {
         return srId;

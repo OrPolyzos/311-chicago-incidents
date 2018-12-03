@@ -36,6 +36,24 @@ public class ServiceRequestCsvToServiceRequest implements Function<ServiceReques
         return serviceRequest;
     }
 
+    public void passParentValues(ServiceRequest serviceRequest, ServiceRequest serviceRequestToPassTheValues) {
+        serviceRequestToPassTheValues.setSrNumber(serviceRequest.getSrNumber());
+        serviceRequestToPassTheValues.setSrType(serviceRequest.getSrType());
+        serviceRequestToPassTheValues.setCreationDateTime(serviceRequest.getCreationDateTime());
+        serviceRequestToPassTheValues.setSrStatus(serviceRequest.getSrStatus());
+        serviceRequestToPassTheValues.setStreetAddress(serviceRequest.getStreetAddress());
+        serviceRequestToPassTheValues.setCompletionDateTime(serviceRequest.getCompletionDateTime());
+        serviceRequestToPassTheValues.setZipCode(serviceRequest.getZipCode());
+        serviceRequestToPassTheValues.setCoordinateX(serviceRequest.getCoordinateX());
+        serviceRequestToPassTheValues.setCoordinateY(serviceRequest.getCoordinateY());
+        serviceRequestToPassTheValues.setWard(serviceRequest.getWard());
+        serviceRequestToPassTheValues.setPoliceDistrict(serviceRequest.getPoliceDistrict());
+        serviceRequestToPassTheValues.setCommunityArea(serviceRequest.getCommunityArea());
+        serviceRequestToPassTheValues.setLongitude(serviceRequest.getLongitude());
+        serviceRequestToPassTheValues.setLatitude(serviceRequest.getLatitude());
+        serviceRequestToPassTheValues.setLocation(serviceRequest.getLocation());
+    }
+
     private Optional<String> mapToOptional(String value) {
         return value.equals(EMPTY_STRING) ? Optional.empty() : Optional.of(value);
     }

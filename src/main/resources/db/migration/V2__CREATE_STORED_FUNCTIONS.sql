@@ -153,3 +153,32 @@ LANGUAGE plpgsql;
 
 --example
 --select * from chicago_service_requests.get_most_common_type_in_bounding_box_for_day(35.910956, -90.655866, 45.925597, -85.659015, '2011-01-02')
+
+--TODO STORED FUNCTION #6
+
+-- Stored function #7
+CREATE OR REPLACE FUNCTION chicago_service_requests.get_licence_plates_involved_in_more_than_one_complaints()
+  returns table(out_sr_type varchar, out_sr_count int8)
+AS $$
+declare
+  sr_record record;
+begin
+  for sr_record in (
+                   select licence_plate, count(*) as sr_count
+                   from chicago_service_requests.abandoned_vehicle_requests
+                   group by licence_plate
+                   having count(*) > 1
+                   )
+  loop
+    out_sr_type := sr_record.licence_plate;
+    out_sr_count := sr_record.sr_count;
+    return next;
+  end loop;
+END; $$
+LANGUAGE plpgsql;
+
+--drop
+--drop function chicago_service_requests.get_licence_plates_involved_in_more_than_one_complaints()
+
+--example
+--select * from chicago_service_requests.get_licence_plates_involved_in_more_than_one_complaints()

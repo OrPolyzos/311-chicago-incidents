@@ -3,6 +3,7 @@ package com.uoa.di.csr.repository;
 import com.uoa.di.csr.domain.ServiceRequestType;
 import com.uoa.di.csr.model.sf_response.AvgCompletionTimePerServiceRequestType;
 import com.uoa.di.csr.model.sf_response.CountPerDay;
+import com.uoa.di.csr.model.sf_response.CountPerLicencePlate;
 import com.uoa.di.csr.model.sf_response.CountPerServiceRequestType;
 import com.uoa.di.csr.model.sf_response.MostCommonServiceRequestPerZipCode;
 
@@ -18,7 +19,7 @@ public class StoredFunctionRepositoryImpl implements StoredFunctionRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Override //SP_1
+    @Override
     public List<CountPerServiceRequestType> getTotalRequestsPerTypeInRange(LocalDateTime startDate, LocalDateTime endDate) {
         List<Object[]> resultList = entityManager.createStoredProcedureQuery("chicago_service_requests.get_total_requests_per_type_in_range")
                 .registerStoredProcedureParameter(1, LocalDateTime.class, ParameterMode.IN)
@@ -72,6 +73,12 @@ public class StoredFunctionRepositoryImpl implements StoredFunctionRepository {
                 .setParameter(4, maxY)
                 .setParameter(5, localDateTime).getResultList();
         return resultList.stream().map(objArr -> new CountPerServiceRequestType(objArr[0], objArr[1])).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CountPerLicencePlate> getLicencePlatesInvolvedInMoreThanOneRequests() {
+        List<Object[]> resultList = entityManager.createStoredProcedureQuery("chicago_service_requests.get_licence_plates_involved_in_more_than_one_complaints").getResultList();
+        return resultList.stream().map(objArr -> new CountPerLicencePlate(objArr[0], objArr[1])).collect(Collectors.toList());
     }
 
 
