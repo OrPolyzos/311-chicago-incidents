@@ -5,7 +5,6 @@ import com.uoa.di.csr.domain.ServiceRequestType;
 import com.uoa.di.csr.parser.model.ServiceRequestCsv;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.function.Function;
@@ -26,8 +25,8 @@ public class ServiceRequestCsvToServiceRequest implements Function<ServiceReques
         //TODO REVISIT FOR Nullable handling - Maybe set default value to avoid nulls in database
         serviceRequest.setCompletionDateTime(mapToOptional(serviceRequestCsv.getCompletionDateTime()).isPresent() ? LocalDateTime.parse(serviceRequestCsv.getCompletionDateTime()) : null);
         serviceRequest.setZipCode(mapToOptional(serviceRequestCsv.getZipCode()).isPresent() ? Long.valueOf(serviceRequestCsv.getZipCode()) : null);
-        serviceRequest.setCoordinateX(mapToOptional(serviceRequestCsv.getCoordinateX()).isPresent() ? new BigDecimal(serviceRequestCsv.getCoordinateX()) : null);
-        serviceRequest.setCoordinateY(mapToOptional(serviceRequestCsv.getCoordinateY()).isPresent() ? new BigDecimal(serviceRequestCsv.getCoordinateY()) : null);
+        serviceRequest.setCoordinateX(mapToOptional(serviceRequestCsv.getCoordinateX()).isPresent() ? Double.valueOf(serviceRequestCsv.getCoordinateX()) : null);
+        serviceRequest.setCoordinateY(mapToOptional(serviceRequestCsv.getCoordinateY()).isPresent() ? Double.valueOf(serviceRequestCsv.getCoordinateY()) : null);
         serviceRequest.setWard(mapToOptional(serviceRequestCsv.getWard()).isPresent() ? Integer.valueOf(serviceRequestCsv.getWard()) : null);
         serviceRequest.setPoliceDistrict(mapToOptional(serviceRequestCsv.getPoliceDistrict()).isPresent() ? Integer.valueOf(serviceRequestCsv.getPoliceDistrict()) : null);
         serviceRequest.setCommunityArea(mapToOptional(serviceRequestCsv.getCommunityArea()).isPresent() ? Integer.valueOf(serviceRequestCsv.getCommunityArea()) : null);

@@ -104,7 +104,7 @@ begin
   for sr_record in (
                    select sr_type, avg(extract(epoch from (completion_date_time::timestamp - creation_date_time::timestamp))) as sr_avg
                    from chicago_service_requests.service_requests
-                   where completion_date_time notnull and creation_date_time between '2011-01-02' and now()::timestamp without time zone
+                   where completion_date_time notnull and creation_date_time between input_start_date and input_end_date
                    group by sr_type
                    )
   loop
@@ -121,3 +121,35 @@ LANGUAGE plpgsql;
 --example
 --select * from chicago_service_requests.get_avg_completion_time_per_type_in_range('2011-01-02', now()::timestamp without time zone)
 
+-- Stored function #5
+CREATE OR REPLACE FUNCTION chicago_service_requests.get_most_common_type_in_bounding_box_for_day
+  (in input_min_x float8,
+   in input_min_y float8,
+   in input_max_x float8,
+   in input_max_y float8,
+   in input_date timestamp without time zone)
+  returns table(out_sr_type varchar, out_sr_count int8)
+AS $$
+declare
+  sr_record record;
+begin
+  for sr_record in (
+                   select sr_type, count(*) as sr_count from chicago_service_requests.service_requests
+                   where input_date = creation_date_time
+                     and ST_Contains(ST_AsText(ST_Envelope(('POLYGON((' || input_min_x || ' ' || input_min_y || ', ' || input_min_x || ' ' || input_max_y || ', ' ||input_max_x || ' ' || input_max_y || ', ' || input_max_x || ' ' || input_min_y || ', ' || input_min_x || ' ' || input_min_y || '))'))), ST_MakePoint(longitude,latitude))
+                   group by sr_type
+                   order by sr_count desc
+                   limit 1)
+  loop
+    out_sr_type := sr_record.sr_type;
+    out_sr_count := sr_record.sr_count;
+    return next;
+  end loop;
+END; $$
+LANGUAGE plpgsql;
+
+--drop
+--drop function chicago_service_requests.get_most_common_type_in_bounding_box_for_day(float8, float8, float8, float8, timestamp without time zone)
+
+--example
+--select * from chicago_service_requests.get_most_common_type_in_bounding_box_for_day(35.910956, -90.655866, 45.925597, -85.659015, '2011-01-02')

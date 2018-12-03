@@ -23,12 +23,14 @@ public class ServiceRequestController {
     public static final String STORED_FUNCTION_TWO_URI = "/sf/2";
     public static final String STORED_FUNCTION_THREE_URI = "/sf/3";
     public static final String STORED_FUNCTION_FOUR_URI = "/sf/4";
+    public static final String STORED_FUNCTION_FIVE_URI = "/sf/5";
 
     private static final String SERVICE_REQUESTS_VIEW = "user/service-request/service-requests";
     public static final String STORED_FUNCTION_ONE_VIEW = "user/stored-functions/one";
     public static final String STORED_FUNCTION_TWO_VIEW = "user/stored-functions/two";
     public static final String STORED_FUNCTION_THREE_VIEW = "user/stored-functions/three";
     public static final String STORED_FUNCTION_FOUR_VIEW = "user/stored-functions/four";
+    public static final String STORED_FUNCTION_FIVE_VIEW = "user/stored-functions/five";
 
     @Autowired
     private ServiceRequestRepository serviceRequestRepository;
@@ -62,5 +64,11 @@ public class ServiceRequestController {
     public String getStoredFunctionFourView(Model model) {
         model.addAttribute("results", serviceRequestRepository.getAvgCompletionTimePerTypeInRange(LocalDateTime.now().minusMonths(100), LocalDateTime.now()));
         return STORED_FUNCTION_FOUR_VIEW;
+    }
+
+    @GetMapping(STORED_FUNCTION_FIVE_URI)
+    public String getStoredFunctionFiveView(Model model) {
+        model.addAttribute("results", serviceRequestRepository.getMostCommonRequestInBoundingBoxForDay(35.910956d, -90.655866d, 45.925597d, -85.659015d, LocalDateTime.of(2011, Month.JANUARY, 1, 0, 0, 0)));
+        return STORED_FUNCTION_FIVE_VIEW;
     }
 }

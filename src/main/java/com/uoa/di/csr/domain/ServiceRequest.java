@@ -39,12 +39,11 @@ public class ServiceRequest {
     @Column(name = "zip_code")
     private Long zipCode;
 
-    //TODO NEED to specify decimal places
     @Column(name = "coordinate_x")
-    private BigDecimal coordinateX;
+    private Double coordinateX;
 
     @Column(name = "coordinate_y")
-    private BigDecimal coordinateY;
+    private Double coordinateY;
 
     @Column(name = "ward")
     private Integer ward;
@@ -129,19 +128,19 @@ public class ServiceRequest {
         this.zipCode = zipCode;
     }
 
-    public BigDecimal getCoordinateX() {
+    public Double getCoordinateX() {
         return coordinateX;
     }
 
-    public void setCoordinateX(BigDecimal coordinateX) {
+    public void setCoordinateX(Double coordinateX) {
         this.coordinateX = coordinateX;
     }
 
-    public BigDecimal getCoordinateY() {
+    public Double getCoordinateY() {
         return coordinateY;
     }
 
-    public void setCoordinateY(BigDecimal coordinateY) {
+    public void setCoordinateY(Double coordinateY) {
         this.coordinateY = coordinateY;
     }
 

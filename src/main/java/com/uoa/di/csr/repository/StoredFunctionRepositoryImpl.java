@@ -57,4 +57,22 @@ public class StoredFunctionRepositoryImpl implements StoredFunctionRepository {
                 .setParameter(2, endDateTime).getResultList();
         return resultList.stream().map(objArr -> new AvgCompletionTimePerServiceRequestType(objArr[0], objArr[1])).collect(Collectors.toList());
     }
+
+    @Override
+    public List<CountPerServiceRequestType> getMostCommonRequestInBoundingBoxForDay(double minX, double minY, double maxX, double maxY, LocalDateTime localDateTime) {
+        List<Object[]> resultList = entityManager.createStoredProcedureQuery("chicago_service_requests.get_most_common_type_in_bounding_box_for_day")
+                .registerStoredProcedureParameter(1, Double.class, ParameterMode.IN)
+                .registerStoredProcedureParameter(2, Double.class, ParameterMode.IN)
+                .registerStoredProcedureParameter(3, Double.class, ParameterMode.IN)
+                .registerStoredProcedureParameter(4, Double.class, ParameterMode.IN)
+                .registerStoredProcedureParameter(5, LocalDateTime.class, ParameterMode.IN)
+                .setParameter(1, minX)
+                .setParameter(2, minY)
+                .setParameter(3, maxX)
+                .setParameter(4, maxY)
+                .setParameter(5, localDateTime).getResultList();
+        return resultList.stream().map(objArr -> new CountPerServiceRequestType(objArr[0], objArr[1])).collect(Collectors.toList());
+    }
+
+
 }

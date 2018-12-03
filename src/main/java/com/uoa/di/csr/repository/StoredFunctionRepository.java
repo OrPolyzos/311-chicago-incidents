@@ -18,4 +18,7 @@ public interface StoredFunctionRepository {
     List<MostCommonServiceRequestPerZipCode> getMostCommonRequestTypesPerZipCodeForDay(LocalDateTime localDateTime);
 
     List<AvgCompletionTimePerServiceRequestType> getAvgCompletionTimePerTypeInRange(LocalDateTime startDateTime, LocalDateTime endDateTime);
+
+    //TODO maybe change to CountPerServiceRequestType instead of list, as it will (most possibly?) never return more than 1 result
+    List<CountPerServiceRequestType> getMostCommonRequestInBoundingBoxForDay(double minX, double minY, double maxX, double maxY, LocalDateTime localDateTime);
 }
