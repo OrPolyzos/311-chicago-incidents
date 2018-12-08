@@ -1,7 +1,7 @@
 <#import "/spring.ftl" as spring/>
 <html>
 <head>
-    <title>Stored Function Seven</title>
+    <title>Licence plates involved in more than one requests</title>
      <#include "../../common-head.ftl">
     <#include "../../datatables-bundle.ftl">
     <script src="/scripts/user/stored-functions/one/sf-one-data-table.js"></script>

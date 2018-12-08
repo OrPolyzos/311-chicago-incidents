@@ -1,4 +1,3 @@
-<button data-toggle="modal" data-target="#create-service-request-modal" class="btn btn-success floating-button-right">+</button>
 <input type="hidden" id="show-create-service-request-modal" value="${showCreateServiceRequestModal!""}"/>
 <!-- Modal -->
 <div class="modal fade" id="create-service-request-modal" role="dialog">

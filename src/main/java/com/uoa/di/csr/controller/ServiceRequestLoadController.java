@@ -4,10 +4,13 @@ import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.bean.HeaderColumnNameMappingStrategy;
 import com.uoa.di.csr.converter.service_request.AbandonedVehicleCsvToAbandonedVehicleRequest;
+import com.uoa.di.csr.converter.service_request.GarbageCartCsvToGarbageCartRequest;
+import com.uoa.di.csr.converter.service_request.RodentBaitingCsvToRodentBaitingRequest;
 import com.uoa.di.csr.converter.service_request.ServiceRequestCsvToServiceRequest;
 import com.uoa.di.csr.parser.model.AbandonedVehicleCsv;
+import com.uoa.di.csr.parser.model.GarbageCartCsv;
+import com.uoa.di.csr.parser.model.RodentBaitingCsv;
 import com.uoa.di.csr.parser.model.ServiceRequestCsv;
-import com.uoa.di.csr.repository.AbandonedVehicleRequestRepository;
 import com.uoa.di.csr.repository.ServiceRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,6 +33,8 @@ import java.util.Objects;
 public class ServiceRequestLoadController {
 
     private static final String SERVICE_REQUESTS_ABANDONED_VEHICLES = "311-service-requests-abandoned-vehicles";
+    private static final String SERVICE_REQUESTS_GARBAGE_CARTS = "311-service-requests-garbage-carts";
+    private static final String SERVICE_REQUESTS_RODENT_BAITING = "311-service-requests-rodent-baiting";
 
     private static String CSV_FILE_EXTENSION = ".csv";
 
@@ -43,14 +48,16 @@ public class ServiceRequestLoadController {
     private ServiceRequestRepository serviceRequestRepository;
 
     @Autowired
-    private AbandonedVehicleRequestRepository abandonedVehicleRequestRepository;
-
-    @Autowired
     private ServiceRequestCsvToServiceRequest serviceRequestCsvToServiceRequest;
 
     @Autowired
     private AbandonedVehicleCsvToAbandonedVehicleRequest abandonedVehicleCsvToAbandonedVehicleRequest;
 
+    @Autowired
+    private GarbageCartCsvToGarbageCartRequest garbageCartCsvToGarbageCartRequest;
+
+    @Autowired
+    private RodentBaitingCsvToRodentBaitingRequest rodentBaitingCsvToRodentBaitingRequest;
 
     @GetMapping("load-service-requests/{csvFileName}")
     public ResponseEntity loadServiceRequests(@PathVariable("csvFileName") String csvFileName) {
@@ -66,11 +73,22 @@ public class ServiceRequestLoadController {
                         abandonedVehicleCsvList
                                 .stream()
                                 .map(abandonedVehicleCsv -> abandonedVehicleCsvToAbandonedVehicleRequest.apply(abandonedVehicleCsv))
-                                .forEach(e -> {
-                                    serviceRequestRepository.save(e);
-                                });
+                                .forEach(serviceRequestRepository::save);
 
                         break;
+                    case SERVICE_REQUESTS_GARBAGE_CARTS:
+                        List<GarbageCartCsv> garbageCartCsvList = parseAndSaveServiceRequests(csvFileName, GarbageCartCsv.class).parse();
+                        garbageCartCsvList
+                                .stream()
+                                .map(garbageCartCsv -> garbageCartCsvToGarbageCartRequest.apply(garbageCartCsv))
+                                .forEach(serviceRequestRepository::save);
+                        break;
+                    case SERVICE_REQUESTS_RODENT_BAITING:
+                        List<RodentBaitingCsv> rodentBaitingCsvList = parseAndSaveServiceRequests(csvFileName, RodentBaitingCsv.class).parse();
+                        rodentBaitingCsvList
+                                .stream()
+                                .map(rodentBaitingCsv -> rodentBaitingCsvToRodentBaitingRequest.apply(rodentBaitingCsv))
+                                .forEach(serviceRequestRepository::save);
                     default: //alley-lights-out, street-lights-all-out, street-lights-one-out
                         List<ServiceRequestCsv> serviceRequestCsvList = parseAndSaveServiceRequests(csvFileName, ServiceRequestCsv.class).parse();
                         serviceRequestCsvList

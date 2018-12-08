@@ -36,7 +36,7 @@ public class ServiceRequestCsvToServiceRequest implements Function<ServiceReques
         return serviceRequest;
     }
 
-    public void passParentValues(ServiceRequest serviceRequest, ServiceRequest serviceRequestToPassTheValues) {
+    protected void passParentValues(ServiceRequest serviceRequest, ServiceRequest serviceRequestToPassTheValues) {
         serviceRequestToPassTheValues.setSrNumber(serviceRequest.getSrNumber());
         serviceRequestToPassTheValues.setSrType(serviceRequest.getSrType());
         serviceRequestToPassTheValues.setCreationDateTime(serviceRequest.getCreationDateTime());
@@ -54,7 +54,7 @@ public class ServiceRequestCsvToServiceRequest implements Function<ServiceReques
         serviceRequestToPassTheValues.setLocation(serviceRequest.getLocation());
     }
 
-    private Optional<String> mapToOptional(String value) {
-        return value.equals(EMPTY_STRING) ? Optional.empty() : Optional.of(value);
+    protected Optional<String> mapToOptional(String value) {
+        return value == null || value.equals(EMPTY_STRING) ? Optional.empty() : Optional.of(value);
     }
 }

@@ -5,6 +5,7 @@ import com.uoa.di.csr.model.sf_response.AvgCompletionTimePerServiceRequestType;
 import com.uoa.di.csr.model.sf_response.CountPerDay;
 import com.uoa.di.csr.model.sf_response.CountPerLicencePlate;
 import com.uoa.di.csr.model.sf_response.CountPerServiceRequestType;
+import com.uoa.di.csr.model.sf_response.CountPerSsa;
 import com.uoa.di.csr.model.sf_response.MostCommonServiceRequestPerZipCode;
 
 import javax.persistence.EntityManager;
@@ -79,6 +80,16 @@ public class StoredFunctionRepositoryImpl implements StoredFunctionRepository {
     public List<CountPerLicencePlate> getLicencePlatesInvolvedInMoreThanOneRequests() {
         List<Object[]> resultList = entityManager.createStoredProcedureQuery("chicago_service_requests.get_licence_plates_involved_in_more_than_one_complaints").getResultList();
         return resultList.stream().map(objArr -> new CountPerLicencePlate(objArr[0], objArr[1])).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CountPerSsa> getTopFiveSsaInRegardToTotalNumberOfRequestsInRange(LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        List<Object[]> resultList = entityManager.createStoredProcedureQuery("chicago_service_requests.get_top_five_ssa_regards_to_total_number_of_requests_in_range")
+                .registerStoredProcedureParameter(1, LocalDateTime.class, ParameterMode.IN)
+                .registerStoredProcedureParameter(2, LocalDateTime.class, ParameterMode.IN)
+                .setParameter(1, startDateTime)
+                .setParameter(2, endDateTime).getResultList();
+        return resultList.stream().map(objArr -> new CountPerSsa(objArr[0], objArr[1])).collect(Collectors.toList());
     }
 
 

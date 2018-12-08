@@ -5,6 +5,7 @@ import com.uoa.di.csr.model.sf_response.AvgCompletionTimePerServiceRequestType;
 import com.uoa.di.csr.model.sf_response.CountPerDay;
 import com.uoa.di.csr.model.sf_response.CountPerLicencePlate;
 import com.uoa.di.csr.model.sf_response.CountPerServiceRequestType;
+import com.uoa.di.csr.model.sf_response.CountPerSsa;
 import com.uoa.di.csr.model.sf_response.MostCommonServiceRequestPerZipCode;
 
 import java.time.LocalDateTime;
@@ -24,4 +25,6 @@ public interface StoredFunctionRepository {
     List<CountPerServiceRequestType> getMostCommonRequestInBoundingBoxForDay(double minX, double minY, double maxX, double maxY, LocalDateTime localDateTime);
 
     List<CountPerLicencePlate> getLicencePlatesInvolvedInMoreThanOneRequests();
+
+    List<CountPerSsa> getTopFiveSsaInRegardToTotalNumberOfRequestsInRange(LocalDateTime startDate, LocalDateTime endDate);
 }

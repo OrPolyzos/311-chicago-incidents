@@ -1,7 +1,9 @@
 package com.uoa.di.csr.converter.service_request;
 
 import com.uoa.di.csr.domain.AbandonedVehicleRequest;
+import com.uoa.di.csr.domain.Activity;
 import com.uoa.di.csr.domain.ServiceRequest;
+import com.uoa.di.csr.domain.SpecialServiceArea;
 import com.uoa.di.csr.parser.model.AbandonedVehicleCsv;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,10 +29,22 @@ public class AbandonedVehicleCsvToAbandonedVehicleRequest implements Function<Ab
         abandonedVehicleRequest.setVehicleMakeModel(mapToOptional(abandonedVehicleCsv.getVehicleMakeModel()).isPresent() ? abandonedVehicleCsv.getVehicleMakeModel() : null);
         abandonedVehicleRequest.setVehicleColor(mapToOptional(abandonedVehicleCsv.getVehicleColor()).isPresent() ? abandonedVehicleCsv.getVehicleColor() : null);
         abandonedVehicleRequest.setHowManyDaysReportedAsParked(mapToOptional(abandonedVehicleCsv.getHowManyDaysReportedAsParked()).isPresent() ? Integer.valueOf(abandonedVehicleCsv.getHowManyDaysReportedAsParked()) : null);
+
+        Activity activity = new Activity();
+        activity.setCurrentActivity(mapToOptional(abandonedVehicleCsv.getCurrentActivity()).isPresent() ? abandonedVehicleCsv.getCurrentActivity() : null);
+        activity.setMostRecentAction(mapToOptional(abandonedVehicleCsv.getMostRecentAction()).isPresent() ? abandonedVehicleCsv.getMostRecentAction() : null);
+        abandonedVehicleRequest.setActivity((mapToOptional(activity.getCurrentActivity()).isPresent() || mapToOptional(activity.getMostRecentAction()).isPresent()) ? activity : null);
+
+        if (mapToOptional(abandonedVehicleCsv.getSsa()).isPresent()) {
+            SpecialServiceArea specialServiceArea = new SpecialServiceArea();
+            specialServiceArea.setSsa(Integer.valueOf(abandonedVehicleCsv.getSsa()));
+            abandonedVehicleRequest.setSpecialServiceArea(specialServiceArea);
+        }
+
         return abandonedVehicleRequest;
     }
 
     private Optional<String> mapToOptional(String value) {
-        return value.equals(EMPTY_STRING) ? Optional.empty() : Optional.of(value);
+        return value == null || value.equals(EMPTY_STRING) ? Optional.empty() : Optional.of(value);
     }
 }

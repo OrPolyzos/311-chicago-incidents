@@ -1,8 +1,10 @@
 package com.uoa.di.csr.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 
 @Entity(name = "abandoned_vehicle_requests")
 @DiscriminatorValue(value = "AbandonedVehicleRequest")
@@ -19,6 +21,12 @@ public class AbandonedVehicleRequest extends ServiceRequest {
 
     @Column(name = "days_reported_as_parked")
     private Integer howManyDaysReportedAsParked;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Activity activity;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private SpecialServiceArea specialServiceArea;
 
     public String getLicensePlate() {
         return licensePlate;
@@ -50,5 +58,21 @@ public class AbandonedVehicleRequest extends ServiceRequest {
 
     public void setHowManyDaysReportedAsParked(Integer howManyDaysReportedAsParked) {
         this.howManyDaysReportedAsParked = howManyDaysReportedAsParked;
+    }
+
+    public Activity getActivity() {
+        return activity;
+    }
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
+    }
+
+    public SpecialServiceArea getSpecialServiceArea() {
+        return specialServiceArea;
+    }
+
+    public void setSpecialServiceArea(SpecialServiceArea specialServiceArea) {
+        this.specialServiceArea = specialServiceArea;
     }
 }

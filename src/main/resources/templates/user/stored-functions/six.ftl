@@ -1,7 +1,7 @@
 <#import "/spring.ftl" as spring/>
 <html>
 <head>
-    <title>Requests with type in range</title>
+    <title>Top 5 SSA per total requests in a specific time range</title>
      <#include "../../common-head.ftl">
     <#include "../../datatables-bundle.ftl">
     <script src="/scripts/user/stored-functions/one/sf-one-data-table.js"></script>
@@ -9,7 +9,7 @@
 <body>
 <#include "../navbar.ftl">
 <div class="container" style="position: relative;">
-    <form class="form-inline text-center" role="form" action="/user/sf/requests-with-type-in-range" method="POST" name="searchForm">
+    <form class="form-inline text-center" role="form" action="/user/sf/five-top-ssa-per-total-requests" method="POST" name="searchForm">
         <div class="form-inline">
             <div class="input-group ">
                 <label for="fromTime">From Time</label>
@@ -24,19 +24,6 @@
         </div>
         <br>
         <div class="input-group">
-            <label for="serviceRequestType">Service Request Type</label>
-            <@spring.bind "searchForm.serviceRequestType"/>
-            <select class="form-control" id="serviceRequestType" name="serviceRequestType">
-                    <#list serviceRequestTypes as serviceRequestType>
-                        <option value="${serviceRequestType.value}">${serviceRequestType.value}</option>
-                    </#list>
-            </select>
-                <#list spring.status.errorMessages as error>
-                    <span class="formError">${error}</span>
-                </#list>
-        </div>
-        <br><br>
-        <div class="input-group">
             <button type="submit" class="btn btn-success">
                 Submit
             </button>
@@ -48,7 +35,7 @@
         <thead>
         <tr>
             <th class="text-center">
-                Creation Day
+                Special Service Area
             </th>
             <th class="text-center">
                 Count
@@ -59,7 +46,7 @@
         <#if results??>
             <#list results as result>
                 <tr>
-                    <td class="text-center">${result.day}</td>
+                    <td class="text-center">${result.ssa}</td>
                     <td class="text-center">${result.count?c}</td>
                 </tr>
             </#list>

@@ -152,9 +152,58 @@ LANGUAGE plpgsql;
 --drop function chicago_service_requests.get_most_common_type_in_bounding_box_for_day(float8, float8, float8, float8, timestamp without time zone)
 
 --example
---select * from chicago_service_requests.get_most_common_type_in_bounding_box_for_day(35.910956, -90.655866, 45.925597, -85.659015, '2011-01-02')
+  --select * from chicago_service_requests.get_most_common_type_in_bounding_box_for_day(35.910956, -90.655866, 45.925597, -85.659015, '2011-01-02')
 
---TODO STORED FUNCTION #6
+-- Stored Function #6
+CREATE OR REPLACE FUNCTION chicago_service_requests.get_top_five_ssa_regards_to_total_number_of_requests_in_range
+  (in input_start_date timestamp without time zone,
+   in input_end_date timestamp without time zone)
+  returns table(out_sr_ssa int8, out_sr_count int8)
+AS $$
+declare
+  sr_record record;
+begin
+  for sr_record in (
+                   select ssa, count(*) as ssa_count from chicago_service_requests.service_requests as t1,
+                      (
+                      select gc.service_request_id as service_request_id, gc.special_service_area_id as special_service_area_id, ssat.ssa as ssa from chicago_service_requests.garbage_carts as gc, chicago_service_requests.special_service_area as ssat
+                      where gc.special_service_area_id = ssat.id
+                      union all
+                      select ab.service_request_id as service_request_id, ab.special_service_area_id as special_service_area_id, ssat.ssa as ssa from chicago_service_requests.abandoned_vehicle_requests as ab, chicago_service_requests.special_service_area as ssat
+                      where ab.special_service_area_id = ssat.id
+                      union all
+                      select ab.service_request_id as service_request_id, ab.special_service_area_id as special_service_area_id, ssat.ssa as ssa from chicago_service_requests.rodent_baiting_requests as ab, chicago_service_requests.special_service_area as ssat
+                      where ab.special_service_area_id = ssat.id
+                      --union all
+                      --select pt.service_request_id as service_request_id, pt.special_service_area_id as special_service_area_id, ssat.ssa as ssa from chicago_service_requests.pot_holes_requests as pt, chicago_service_requests.special_service_area as ssat
+                      --where pt.special_service_area_id = ssat.id
+                      --union all
+                      --select td.service_request_id as service_request_id, td.special_service_area_id as special_service_area_id, ssat.ssa as ssa from chicago_service_requests.tree_derbis_requests as td, chicago_service_requests.special_service_area as ssat
+                      --where td.special_service_area_id = ssat.id
+                      --union all
+                      --select gr.service_request_id as service_request_id, gr.special_service_area_id as special_service_area_id, ssat.ssa as ssa from chicago_service_requests.tree_derbis_requests as gr, chicago_service_requests.special_service_area as ssat
+                      --where gr.special_service_area_id = ssat.id
+                      ) as t2
+                   where t1.service_request_id = t2.service_request_id
+                     and t1.creation_date_time between input_start_date and input_end_date
+                   group by ssa
+                   order by ssa_count desc
+                   limit 5
+                   )
+  loop
+    out_sr_ssa := sr_record.ssa;
+    out_sr_count := sr_record.ssa_count;
+    return next;
+  end loop;
+END; $$
+LANGUAGE plpgsql;
+
+--drop
+--drop function chicago_service_requests.get_top_five_ssa_regards_to_total_number_of_requests_in_range(timestamp without time zone, timestamp without time zone);
+
+--example
+--select * from chicago_service_requests.get_top_five_ssa_regards_to_total_number_of_requests_in_range('2011-01-02 00:00:00', now()::timestamp without time zone)
+
 
 -- Stored function #7
 CREATE OR REPLACE FUNCTION chicago_service_requests.get_licence_plates_involved_in_more_than_one_complaints()
