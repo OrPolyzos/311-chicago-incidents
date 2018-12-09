@@ -1,0 +1,40 @@
+package com.uoa.di.csr.service;
+
+import com.uoa.di.csr.domain.ServiceRequest;
+import com.uoa.di.csr.exception.service_request.ServiceRequestDataInconsistencyException;
+import com.uoa.di.csr.model.search.GeneralSearchForm;
+import com.uoa.di.csr.repository.ServiceRequestRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+public class ServiceRequestService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ServiceRequest.class);
+
+    @Autowired
+    private ServiceRequestRepository serviceRequestRepository;
+
+    @Autowired
+    private SpecificServiceRequestResolver serviceRequestResolver;
+
+    public List<ServiceRequest> findAllByIdOrStreetOrZipCode(GeneralSearchForm generalSearchForm) {
+        return serviceRequestRepository.criteriaSearch(generalSearchForm)
+                .stream()
+                .map(serviceRequest -> {
+                    try {
+                        return serviceRequestResolver.mapToSpecificType(serviceRequest);
+                    } catch (ServiceRequestDataInconsistencyException e) {
+                        LOGGER.error(e.getMessage());
+                    }
+                    return serviceRequest;
+                })
+                .collect(Collectors.toList());
+    }
+
+}

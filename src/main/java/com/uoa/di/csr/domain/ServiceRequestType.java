@@ -7,7 +7,8 @@ public enum ServiceRequestType {
     STREET_LIGHTS_ALL_OUT("Street Lights - All/Out"),
     STREET_LIGHT_ONE_OUT("Street Light - 1/Out"),
     GARBAGE_CART("Garbage Cart Black Maintenance/Replacement"),
-    RODENT_BAITING("Rodent Baiting/Rat Complaint");
+    RODENT_BAITING("Rodent Baiting/Rat Complaint"),
+    POT_HOLE("Pot Hole in Street");
 
     private String value;
 
@@ -32,6 +33,8 @@ public enum ServiceRequestType {
             return GARBAGE_CART;
         } else if (actualValue.equals(RODENT_BAITING.getValue())) {
             return RODENT_BAITING;
+        } else if (actualValue.equals(POT_HOLE.getValue())) {
+            return POT_HOLE;
         }
         //TODO ALL CASES SHOULD BE ADDED
         return null;

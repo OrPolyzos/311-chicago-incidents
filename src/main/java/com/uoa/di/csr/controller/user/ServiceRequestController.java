@@ -1,13 +1,15 @@
 package com.uoa.di.csr.controller.user;
 
+import com.uoa.di.csr.domain.ServiceRequest;
 import com.uoa.di.csr.domain.ServiceRequestType;
 import com.uoa.di.csr.model.search.BoundingBoxSearchForm;
 import com.uoa.di.csr.model.search.DaySearchForm;
 import com.uoa.di.csr.model.search.FromTimeToTimeSearchForm;
+import com.uoa.di.csr.model.search.GeneralSearchForm;
 import com.uoa.di.csr.model.search.ServiceRequestTypeSearchForm;
 import com.uoa.di.csr.repository.ServiceRequestRepository;
+import com.uoa.di.csr.service.ServiceRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.util.List;
 
 import static com.uoa.di.csr.security.SecurityHelper.USER_BASE_URI;
 
@@ -32,6 +35,8 @@ public class ServiceRequestController {
     private static final String STORED_FUNCTION_FIVE_URI = "/sf/most-common-in-bounding-box-for-day";
     private static final String STORED_FUNCTION_SIX_URI = "/sf/five-top-ssa-per-total-requests";
     private static final String STORED_FUNCTION_SEVEN_URI = "/sf/licence-plates-involved-in-more-than-one-requests";
+    private static final String STORED_FUNCTION_EIGHT_URI = "/sf/second-most-common-vehicle-color";
+
 
     private static final String SERVICE_REQUESTS_VIEW = "user/service-request/service-requests";
     private static final String STORED_FUNCTION_ONE_VIEW = "user/stored-functions/one";
@@ -41,6 +46,7 @@ public class ServiceRequestController {
     private static final String STORED_FUNCTION_FIVE_VIEW = "user/stored-functions/five";
     private static final String STORED_FUNCTION_SIX_VIEW = "user/stored-functions/six";
     private static final String STORED_FUNCTION_SEVEN_VIEW = "user/stored-functions/seven";
+    private static final String STORED_FUNCTION_EIGHT_VIEW = "user/stored-functions/eight";
 
     private static final String RESULTS = "results";
     private static final String SEARCH_FORM = "searchForm";
@@ -49,9 +55,31 @@ public class ServiceRequestController {
     @Autowired
     private ServiceRequestRepository serviceRequestRepository;
 
+    @Autowired
+    private ServiceRequestService serviceRequestService;
+
     @GetMapping(SERVICE_REQUESTS_URI)
     public String getServiceRequestsView(Model model) {
-        model.addAttribute("serviceRequests", serviceRequestRepository.findAll(new PageRequest(0, 200)).getContent());
+        model.addAttribute(SEARCH_FORM, new GeneralSearchForm());
+        return SERVICE_REQUESTS_VIEW;
+    }
+
+    @PostMapping(SERVICE_REQUESTS_URI)
+    public String searchForServiceRequests(Model model, @Valid @ModelAttribute(SEARCH_FORM) GeneralSearchForm searchForm, BindingResult bindingResult) {
+        model.addAttribute(SEARCH_FORM, new GeneralSearchForm());
+        Long id, zipCode;
+        try {
+            id = Long.valueOf(searchForm.getServiceRequestId());
+        } catch (Exception e) {
+            id = null;
+        }
+        try {
+            zipCode = Long.valueOf(searchForm.getZipCode());
+        } catch (Exception e) {
+            zipCode = null;
+        }
+        List<ServiceRequest> results = serviceRequestService.findAllByIdOrStreetOrZipCode(searchForm);
+        model.addAttribute(RESULTS, results);
         return SERVICE_REQUESTS_VIEW;
     }
 
@@ -135,7 +163,13 @@ public class ServiceRequestController {
 
     @GetMapping(STORED_FUNCTION_SEVEN_URI)
     public String getStoredFunctionSevenView(Model model) {
-        model.addAttribute("results", serviceRequestRepository.getLicencePlatesInvolvedInMoreThanOneRequests());
+        model.addAttribute(RESULTS, serviceRequestRepository.getLicencePlatesInvolvedInMoreThanOneRequests());
         return STORED_FUNCTION_SEVEN_VIEW;
+    }
+
+    @GetMapping(STORED_FUNCTION_EIGHT_URI)
+    public String getStoredFunctionEightView(Model model) {
+        model.addAttribute(RESULTS, serviceRequestRepository.getSecondMostCommonVehicleColor());
+        return STORED_FUNCTION_EIGHT_VIEW;
     }
 }

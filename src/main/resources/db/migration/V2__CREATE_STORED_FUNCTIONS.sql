@@ -166,7 +166,7 @@ begin
   for sr_record in (
                    select ssa, count(*) as ssa_count from chicago_service_requests.service_requests as t1,
                       (
-                      select gc.service_request_id as service_request_id, gc.special_service_area_id as special_service_area_id, ssat.ssa as ssa from chicago_service_requests.garbage_carts as gc, chicago_service_requests.special_service_area as ssat
+                      select gc.service_request_id as service_request_id, gc.special_service_area_id as special_service_area_id, ssat.ssa as ssa from chicago_service_requests.garbage_carts_requests as gc, chicago_service_requests.special_service_area as ssat
                       where gc.special_service_area_id = ssat.id
                       union all
                       select ab.service_request_id as service_request_id, ab.special_service_area_id as special_service_area_id, ssat.ssa as ssa from chicago_service_requests.abandoned_vehicle_requests as ab, chicago_service_requests.special_service_area as ssat
@@ -175,13 +175,13 @@ begin
                       select ab.service_request_id as service_request_id, ab.special_service_area_id as special_service_area_id, ssat.ssa as ssa from chicago_service_requests.rodent_baiting_requests as ab, chicago_service_requests.special_service_area as ssat
                       where ab.special_service_area_id = ssat.id
                       --union all
-                      --select pt.service_request_id as service_request_id, pt.special_service_area_id as special_service_area_id, ssat.ssa as ssa from chicago_service_requests.pot_holes_requests as pt, chicago_service_requests.special_service_area as ssat
+                      --select pt.service_request_id as service_request_id, pt.special_service_area_id as special_service_area_id, ssat.ssa as ssa from chicago_service_requests.pot_hole_requests as pt, chicago_service_requests.special_service_area as ssat
                       --where pt.special_service_area_id = ssat.id
                       --union all
-                      --select td.service_request_id as service_request_id, td.special_service_area_id as special_service_area_id, ssat.ssa as ssa from chicago_service_requests.tree_derbis_requests as td, chicago_service_requests.special_service_area as ssat
+                      --select td.service_request_id as service_request_id, td.special_service_area_id as special_service_area_id, ssat.ssa as ssa from chicago_service_requests.tree_debris_requests as td, chicago_service_requests.special_service_area as ssat
                       --where td.special_service_area_id = ssat.id
                       --union all
-                      --select gr.service_request_id as service_request_id, gr.special_service_area_id as special_service_area_id, ssat.ssa as ssa from chicago_service_requests.tree_derbis_requests as gr, chicago_service_requests.special_service_area as ssat
+                      --select gr.service_request_id as service_request_id, gr.special_service_area_id as special_service_area_id, ssat.ssa as ssa from chicago_service_requests.graffiti_removal_requests as gr, chicago_service_requests.special_service_area as ssat
                       --where gr.special_service_area_id = ssat.id
                       ) as t2
                    where t1.service_request_id = t2.service_request_id
@@ -203,7 +203,6 @@ LANGUAGE plpgsql;
 
 --example
 --select * from chicago_service_requests.get_top_five_ssa_regards_to_total_number_of_requests_in_range('2011-01-02 00:00:00', now()::timestamp without time zone)
-
 
 -- Stored function #7
 CREATE OR REPLACE FUNCTION chicago_service_requests.get_licence_plates_involved_in_more_than_one_complaints()
@@ -231,3 +230,36 @@ LANGUAGE plpgsql;
 
 --example
 --select * from chicago_service_requests.get_licence_plates_involved_in_more_than_one_complaints()
+
+-- Stored function #8
+CREATE OR REPLACE FUNCTION chicago_service_requests.get_second_most_common_vehicle_color()
+  returns table(out_sr_color varchar, out_sr_count int8)
+AS $$
+declare
+  sr_record record;
+begin
+  for sr_record in (
+                   select vehicle_color, vc_count, col_rank
+                   from(
+                       select vehicle_color, vc_count, dense_rank() over (order by vc_count desc) as col_rank
+                       from(
+                           select vehicle_color, count(vehicle_color) as vc_count
+                           from chicago_service_requests.abandoned_vehicle_requests
+                           group by vehicle_color
+                           ) t1
+                       ) t2
+                   where col_rank = 2
+                   )
+  loop
+    out_sr_color := sr_record.vehicle_color;
+    out_sr_count := sr_record.vc_count;
+    return next;
+  end loop;
+END; $$
+LANGUAGE plpgsql;
+
+--drop
+--drop function chicago_service_requests.get_second_most_common_vehicle_color()
+
+--example
+--select * from chicago_service_requests.get_second_most_common_vehicle_color()

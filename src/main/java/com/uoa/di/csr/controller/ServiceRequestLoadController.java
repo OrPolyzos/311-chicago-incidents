@@ -35,6 +35,7 @@ public class ServiceRequestLoadController {
     private static final String SERVICE_REQUESTS_ABANDONED_VEHICLES = "311-service-requests-abandoned-vehicles";
     private static final String SERVICE_REQUESTS_GARBAGE_CARTS = "311-service-requests-garbage-carts";
     private static final String SERVICE_REQUESTS_RODENT_BAITING = "311-service-requests-rodent-baiting";
+    private static final String SERVICE_REQUESTS_POT_HOLES_REPORTED = "311-service-requests-pot-holes-reported";
 
     private static String CSV_FILE_EXTENSION = ".csv";
 

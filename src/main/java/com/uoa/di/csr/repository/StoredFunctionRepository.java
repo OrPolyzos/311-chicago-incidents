@@ -2,6 +2,7 @@ package com.uoa.di.csr.repository;
 
 import com.uoa.di.csr.domain.ServiceRequestType;
 import com.uoa.di.csr.model.sf_response.AvgCompletionTimePerServiceRequestType;
+import com.uoa.di.csr.model.sf_response.CountPerColor;
 import com.uoa.di.csr.model.sf_response.CountPerDay;
 import com.uoa.di.csr.model.sf_response.CountPerLicencePlate;
 import com.uoa.di.csr.model.sf_response.CountPerServiceRequestType;
@@ -27,4 +28,6 @@ public interface StoredFunctionRepository {
     List<CountPerLicencePlate> getLicencePlatesInvolvedInMoreThanOneRequests();
 
     List<CountPerSsa> getTopFiveSsaInRegardToTotalNumberOfRequestsInRange(LocalDateTime startDate, LocalDateTime endDate);
+
+    List<CountPerColor> getSecondMostCommonVehicleColor();
 }

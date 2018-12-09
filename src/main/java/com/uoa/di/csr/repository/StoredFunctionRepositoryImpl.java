@@ -2,6 +2,7 @@ package com.uoa.di.csr.repository;
 
 import com.uoa.di.csr.domain.ServiceRequestType;
 import com.uoa.di.csr.model.sf_response.AvgCompletionTimePerServiceRequestType;
+import com.uoa.di.csr.model.sf_response.CountPerColor;
 import com.uoa.di.csr.model.sf_response.CountPerDay;
 import com.uoa.di.csr.model.sf_response.CountPerLicencePlate;
 import com.uoa.di.csr.model.sf_response.CountPerServiceRequestType;
@@ -90,6 +91,13 @@ public class StoredFunctionRepositoryImpl implements StoredFunctionRepository {
                 .setParameter(1, startDateTime)
                 .setParameter(2, endDateTime).getResultList();
         return resultList.stream().map(objArr -> new CountPerSsa(objArr[0], objArr[1])).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CountPerColor> getSecondMostCommonVehicleColor() {
+        List<Object[]> resultList = entityManager.createStoredProcedureQuery("chicago_service_requests.get_second_most_common_vehicle_color")
+                .getResultList();
+        return resultList.stream().map(objArr -> new CountPerColor(objArr[0], objArr[1])).collect(Collectors.toList());
     }
 
 

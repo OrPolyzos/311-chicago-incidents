@@ -13,7 +13,7 @@
         </div>
         <!-- Menu Items -->
         <div id="mainNavBarMob" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav navbar-right">
+            <ol class="nav navbar-nav navbar-right">
                 <li>
                     <a href="/user/sf/requests-per-type-in-range">Total requests per type in a specific time range</a>
                 </li>
@@ -36,9 +36,12 @@
                     <a href="/user/sf/licence-plates-involved-in-more-than-one-requests">Licence plates involved in more than one requests</a>
                 </li>
                 <li>
+                    <a href="/user/sf/second-most-common-vehicle-color">Second most common vehicle color</a>
+                </li>
+                <li>
                     <a href="/logout">Logout</a>
                 </li>
-            </ul>
+            </ol>
         </div>
     </div>
 </nav>
