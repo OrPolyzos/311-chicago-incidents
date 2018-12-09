@@ -48,6 +48,9 @@
                     <a href="/user/sf/premises-with-rates-less-than">Rodent Baiting Requests with Premises with Rates less than</a>
                 </li>
                 <li>
+                    <a href="/user/sf/pot-holes-rodent-baiting-for-day">Police districts completing more than 1 rodent baiting and more than 1 pot hole request for a day</a>
+                </li>
+                <li>
                     <a href="/logout">Logout</a>
                 </li>
             </ol>

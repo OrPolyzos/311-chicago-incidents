@@ -12,10 +12,12 @@ import com.uoa.di.csr.model.sf_response.MostCommonServiceRequestPerZipCode;
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("unchecked")
 public class StoredFunctionRepositoryImpl implements StoredFunctionRepository {
 
     @PersistenceContext
@@ -98,6 +100,15 @@ public class StoredFunctionRepositoryImpl implements StoredFunctionRepository {
         List<Object[]> resultList = entityManager.createStoredProcedureQuery("chicago_service_requests.get_second_most_common_vehicle_color")
                 .getResultList();
         return resultList.stream().map(objArr -> new CountPerColor(objArr[0], objArr[1])).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<BigInteger> getPotHolesTogetherWithRodentBaitingForDay(LocalDateTime localDateTime) {
+        List<Object> resultList = entityManager.createStoredProcedureQuery("chicago_service_requests.get_pot_holes_rodent_baitings_together_for_day")
+                .registerStoredProcedureParameter(1, LocalDateTime.class, ParameterMode.IN)
+                .setParameter(1, localDateTime)
+                .getResultList();
+        return resultList.stream().map(objArr -> (BigInteger) objArr).collect(Collectors.toList());
     }
 
 

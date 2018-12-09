@@ -256,3 +256,51 @@ LANGUAGE plpgsql;
 
 --example
 --select * from chicago_service_requests.get_second_most_common_vehicle_color()
+
+-- Stored function #12
+CREATE OR REPLACE FUNCTION chicago_service_requests.get_pot_holes_rodent_baitings_together_for_day(input_timestamp timestamp without time zone)
+  returns table(out_sr_police_district int8)
+AS $$
+declare
+  sr_record record;
+begin
+  for sr_record in
+  (
+  select distinct police_district
+  from chicago_service_requests.service_requests
+  where service_request_id in
+        (
+        select rb.service_request_id as service_request_id from chicago_service_requests.rodent_baiting_requests rb
+        where rb.premises_baited > 1
+          and rb.service_request_id in
+              (
+              select service_request_id
+              from chicago_service_requests.service_requests
+              where completion_date_time = input_timestamp
+                and sr_type = 'Rodent Baiting/Rat Complaint'
+              )
+        union all
+        select ph.service_request_id as service_request_id
+        from chicago_service_requests.pot_hole_requests ph
+        where ph.pot_holes_filled_on_block > 1
+          and ph.service_request_id in
+              (
+              select service_request_id
+              from chicago_service_requests.service_requests
+              where completion_date_time = input_timestamp
+                and sr_type = 'Pot Hole in Street'
+              )
+        )
+  )
+  loop
+    out_sr_police_district := sr_record.police_district;
+    return next;
+  end loop;
+END; $$
+LANGUAGE plpgsql;
+
+--drop
+--drop function chicago_service_requests.get_pot_holes_rodent_baitings_together_for_day(timestamp without time zone)
+
+--example
+--select * from chicago_service_requests.get_pot_holes_rodent_baitings_together_for_day('2011-01-05 00:00:00')

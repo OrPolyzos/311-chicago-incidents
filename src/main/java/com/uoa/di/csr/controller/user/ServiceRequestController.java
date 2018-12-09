@@ -43,6 +43,7 @@ public class ServiceRequestController extends BaseController {
     private static final String STORED_FUNCTION_NINE_URI = "/sf/premises-baited-less-than";
     private static final String STORED_FUNCTION_TEN_URI = "/sf/premises-with-garbage-less-than";
     private static final String STORED_FUNCTION_ELEVEN_URI = "/sf/premises-with-rates-less-than";
+    private static final String STORED_FUNCTION_TWELVE_URI = "/sf/pot-holes-rodent-baiting-for-day";
 
     private static final String SERVICE_REQUESTS_VIEW = "user/service-request/service-requests";
     private static final String STORED_FUNCTION_ONE_VIEW = "user/stored-functions/one";
@@ -54,6 +55,7 @@ public class ServiceRequestController extends BaseController {
     private static final String STORED_FUNCTION_SEVEN_VIEW = "user/stored-functions/seven";
     private static final String STORED_FUNCTION_EIGHT_VIEW = "user/stored-functions/eight";
     private static final String STORED_FUNCTION_NINE_TEN_ELEVEN_VIEW = "user/service-request/nine-ten-eleven";
+    private static final String STORED_FUNCTION_TWELVE_VIEW = "user/stored-functions/twelve";
 
     private static final String RESULTS = "results";
     private static final String SEARCH_FORM = "searchForm";
@@ -124,12 +126,12 @@ public class ServiceRequestController extends BaseController {
 
     @PostMapping(STORED_FUNCTION_TWO_URI)
     public String processStoredFunctionTwo(Model model, @Valid @ModelAttribute(SEARCH_FORM) ServiceRequestTypeSearchForm searchForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        model.addAttribute(SERVICE_REQUESTS_TYPES, ServiceRequestType.values());
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute(BINDING_RESULT_CONSTANT + SEARCH_FORM, bindingResult);
             redirectAttributes.addFlashAttribute(SEARCH_FORM, searchForm);
             return redirectToUri(STORED_FUNCTION_TWO_URI);
         }
-        model.addAttribute(SERVICE_REQUESTS_TYPES, ServiceRequestType.values());
         model.addAttribute(RESULTS, serviceRequestRepository.getTotalRequestsPerDayWithTypeInRange(ServiceRequestType.reverseValue(searchForm.getServiceRequestType()), searchForm.getFromTime(), searchForm.getToTime()));
         return STORED_FUNCTION_TWO_VIEW;
     }
@@ -234,13 +236,13 @@ public class ServiceRequestController extends BaseController {
 
     @PostMapping(STORED_FUNCTION_NINE_URI)
     public String processStoredFunctionNine(Model model, @Valid @ModelAttribute(SEARCH_FORM) SingleIntegerLimitSearchForm searchForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        model.addAttribute(RODENT_BAITING_MESSAGE_HOLDER, NUMBER_OF_PREMISES_BAITED);
+        model.addAttribute(RODENT_BAITING_URI_HOLDER, STORED_FUNCTION_NINE_URI);
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute(BINDING_RESULT_CONSTANT + SEARCH_FORM, bindingResult);
             redirectAttributes.addFlashAttribute(SEARCH_FORM, searchForm);
             return redirectToUri(STORED_FUNCTION_NINE_URI);
         }
-        model.addAttribute(RODENT_BAITING_MESSAGE_HOLDER, NUMBER_OF_PREMISES_BAITED);
-        model.addAttribute(RODENT_BAITING_URI_HOLDER, STORED_FUNCTION_NINE_URI);
         model.addAttribute(RESULTS, rodentBaitingRequestRepository.findAllByNumberOfPremisesBaitedLessThan(searchForm.getLimit()));
         return STORED_FUNCTION_NINE_TEN_ELEVEN_VIEW;
     }
@@ -257,13 +259,13 @@ public class ServiceRequestController extends BaseController {
 
     @PostMapping(STORED_FUNCTION_TEN_URI)
     public String processStoredFunctionTen(Model model, @Valid @ModelAttribute(SEARCH_FORM) SingleIntegerLimitSearchForm searchForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        model.addAttribute(RODENT_BAITING_URI_HOLDER, STORED_FUNCTION_TEN_URI);
+        model.addAttribute(RODENT_BAITING_MESSAGE_HOLDER, NUMBER_OF_PREMISES_WITH_GARBAGE);
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute(BINDING_RESULT_CONSTANT + SEARCH_FORM, bindingResult);
             redirectAttributes.addFlashAttribute(SEARCH_FORM, searchForm);
             return redirectToUri(STORED_FUNCTION_TEN_URI);
         }
-        model.addAttribute(RODENT_BAITING_URI_HOLDER, STORED_FUNCTION_TEN_URI);
-        model.addAttribute(RODENT_BAITING_MESSAGE_HOLDER, NUMBER_OF_PREMISES_WITH_GARBAGE);
         model.addAttribute(RESULTS, rodentBaitingRequestRepository.findAllByNumberOfPremisesWithGarbageLessThan(searchForm.getLimit()));
         return STORED_FUNCTION_NINE_TEN_ELEVEN_VIEW;
     }
@@ -280,14 +282,33 @@ public class ServiceRequestController extends BaseController {
 
     @PostMapping(STORED_FUNCTION_ELEVEN_URI)
     public String processStoredFunctionEleven(Model model, @Valid @ModelAttribute(SEARCH_FORM) SingleIntegerLimitSearchForm searchForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        model.addAttribute(RODENT_BAITING_URI_HOLDER, STORED_FUNCTION_ELEVEN_URI);
+        model.addAttribute(RODENT_BAITING_MESSAGE_HOLDER, NUMBER_OF_PREMISES_BAITED);
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute(BINDING_RESULT_CONSTANT + SEARCH_FORM, bindingResult);
             redirectAttributes.addFlashAttribute(SEARCH_FORM, searchForm);
             return redirectToUri(STORED_FUNCTION_ELEVEN_URI);
         }
-        model.addAttribute(RODENT_BAITING_URI_HOLDER, STORED_FUNCTION_ELEVEN_URI);
-        model.addAttribute(RODENT_BAITING_MESSAGE_HOLDER, NUMBER_OF_PREMISES_BAITED);
         model.addAttribute(RESULTS, rodentBaitingRequestRepository.findAllByNumberOfPremisesWithRatsLessThan(searchForm.getLimit()));
         return STORED_FUNCTION_NINE_TEN_ELEVEN_VIEW;
+    }
+
+    @GetMapping(STORED_FUNCTION_TWELVE_URI)
+    public String getStoredFunctionTwelveView(Model model) {
+        if (!model.containsAttribute(SEARCH_FORM)) {
+            model.addAttribute(SEARCH_FORM, new DaySearchForm());
+        }
+        return STORED_FUNCTION_TWELVE_VIEW;
+    }
+
+    @PostMapping(STORED_FUNCTION_TWELVE_URI)
+    public String processStoredFunctionTwelve(Model model, @Valid @ModelAttribute(SEARCH_FORM) DaySearchForm searchForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute(BINDING_RESULT_CONSTANT + SEARCH_FORM, bindingResult);
+            redirectAttributes.addFlashAttribute(SEARCH_FORM, searchForm);
+            return redirectToUri(STORED_FUNCTION_TWELVE_URI);
+        }
+        model.addAttribute(RESULTS, serviceRequestRepository.getPotHolesTogetherWithRodentBaitingForDay(searchForm.getTime().atStartOfDay()));
+        return STORED_FUNCTION_TWELVE_VIEW;
     }
 }

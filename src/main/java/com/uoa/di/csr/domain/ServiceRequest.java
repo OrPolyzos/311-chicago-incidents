@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
         indexes = {
                 @Index(name = "sr_type_index", columnList = "sr_type"),
                 @Index(name = "creation_date_time_index", columnList = "creation_date_time"),
+                @Index(name = "completion_date_time_index", columnList = "completion_date_time"),
                 @Index(name = "zip_code_index", columnList = "zip_code")
         })
 @Inheritance(strategy = InheritanceType.JOINED)
