@@ -6,12 +6,12 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
-@Entity(name = "garbage_carts_requests")
-@DiscriminatorValue(value = "GarbageCartRequest")
-public class GarbageCartRequest extends ServiceRequest {
+@Entity(name = "tree_debris_requests")
+@DiscriminatorValue(value = "TreeDebrisRequest")
+public class TreeDebrisRequest extends ServiceRequest {
 
-    @Column(name = "black_carts_delivered")
-    private Integer numberOfBlackCartsDelivered;
+    @Column(name = "where_is_located")
+    private String whereIsTheDebrisLocated;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Activity activity;
@@ -19,12 +19,12 @@ public class GarbageCartRequest extends ServiceRequest {
     @OneToOne(cascade = CascadeType.ALL)
     private SpecialServiceArea specialServiceArea;
 
-    public Integer getNumberOfBlackCartsDelivered() {
-        return numberOfBlackCartsDelivered;
+    public String getWhereIsTheDebrisLocated() {
+        return whereIsTheDebrisLocated;
     }
 
-    public void setNumberOfBlackCartsDelivered(Integer numberOfBlackCartsDelivered) {
-        this.numberOfBlackCartsDelivered = numberOfBlackCartsDelivered;
+    public void setWhereIsTheDebrisLocated(String whereIsTheDebrisLocated) {
+        this.whereIsTheDebrisLocated = whereIsTheDebrisLocated;
     }
 
     public Activity getActivity() {

@@ -127,6 +127,26 @@
                                 <td class="text-center">
                                     <#include "specific-type-modals/rodent-baiting-modal.ftl"/>
                                 </td>
+                            <#elseif serviceRequest.srType.value = srTypes.GRAFFITI_REMOVAL>
+                                <td class="text-center">
+                                    <#include "specific-type-modals/graffiti-removal-modal.ftl"/>
+                                </td>
+                            <#elseif serviceRequest.srType.value = srTypes.TREE_DEBRIS>
+                                <td class="text-center">
+                                    <#include "specific-type-modals/tree-debris-modal.ftl"/>
+                                </td>
+                            <#elseif serviceRequest.srType.value = srTypes.TREE_TRIMS>
+                                <td class="text-center">
+                                    <#include "specific-type-modals/tree-trims-modal.ftl"/>
+                                </td>
+                            <#elseif serviceRequest.srType.value = srTypes.SANITATION_CODE_COMPLAINT>
+                                <td class="text-center">
+                                    <#include "specific-type-modals/sanitation-code-modal.ftl"/>
+                                </td>
+                            <#elseif serviceRequest.srType.value = srTypes.VACANT_AND_ABANDONED_BUILDING>
+                                <td class="text-center">
+                                    <#include "specific-type-modals/vacant-abandoned-building-modal.ftl"/>
+                                </td>
                             <#else>
                                 <td class="text-center">-</td>
                             </#if>
