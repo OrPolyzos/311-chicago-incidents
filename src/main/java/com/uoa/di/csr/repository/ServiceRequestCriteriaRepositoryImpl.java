@@ -31,13 +31,9 @@ public class ServiceRequestCriteriaRepositoryImpl implements ServiceRequestCrite
         } else {
             if (isNotNullOrEmpty(searchForm.getStreetAddress())) {
                 predicates.add(criteriaBuilder.like(root.get("streetAddress"), "%" + searchForm.getStreetAddress() + "%"));
-            } else {
-                predicates.add(criteriaBuilder.equal(root.get("streetAddress"), null));
             }
             if (isNotNullOrEmpty(searchForm.getZipCode())) {
                 predicates.add(criteriaBuilder.equal(root.get("zipCode"), searchForm.getZipCode()));
-            } else {
-                predicates.add(criteriaBuilder.equal(root.get("zipCode"), null));
             }
         }
 

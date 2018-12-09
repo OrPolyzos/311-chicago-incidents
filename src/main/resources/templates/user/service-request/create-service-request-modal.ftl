@@ -1,4 +1,4 @@
-<input type="hidden" id="show-create-service-request-modal" value="${showCreateServiceRequestModal!""}"/>
+<input type="hidden" id="show-create-service-request-modal" value="${showCreateServiceRequestModal!"-"}"/>
 <!-- Modal -->
 <div class="modal fade" id="create-service-request-modal" role="dialog">
   <div class="modal-dialog modal-lg">
@@ -18,7 +18,7 @@
                                   <div class="form-group">
                                       <label for="username">Username</label>
                                   <#--<@spring.bind "userCreateForm.username"/>-->
-                                      <input type="text" class="form-control" id="username" name="username" placeholder="johnDoe" <#--value="${userCreateForm.username!""}"--> required/>
+                                      <input type="text" class="form-control" id="username" name="username" placeholder="johnDoe" <#--value="${userCreateForm.username!"-"}"--> required/>
 
                                   </div>
                                   <div class="form-group">
@@ -30,13 +30,13 @@
                                   <div class="form-group">
                                       <label for="firstName">First Name</label>
                                   <#--<@spring.bind "userCreateForm.firstName"/>-->
-                                      <input type="text" class="form-control" id="firstName" name="firstName" placeholder="John" <#--value="${userCreateForm.firstName!""}"--> required/>
+                                      <input type="text" class="form-control" id="firstName" name="firstName" placeholder="John" <#--value="${userCreateForm.firstName!"-"}"--> required/>
 
                                   </div>
                                   <div class="form-group">
                                       <label for="lastName">LastName</label>
                                   <#--<@spring.bind "userCreateForm.lastName"/>-->
-                                      <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Doe" <#--value="${userCreateForm.lastName!""}"--> required/>
+                                      <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Doe" <#--value="${userCreateForm.lastName!"-"}"--> required/>
 
                                   </div>
                                   <div class="form-group">
@@ -51,7 +51,7 @@
                                   <div class="form-group">
                                       <label for="email">Email</label>
                                   <#--<@spring.bind "userCreateForm.email"/>-->
-                                      <input type="email" class="form-control" id="email" name="email" placeholder="john@doe.com" <#--value="${userCreateForm.email!""}-->" required/>
+                                      <input type="email" class="form-control" id="email" name="email" placeholder="john@doe.com" <#--value="${userCreateForm.email!"-"}-->" required/>
 
                                   </div>
                               </fieldset>

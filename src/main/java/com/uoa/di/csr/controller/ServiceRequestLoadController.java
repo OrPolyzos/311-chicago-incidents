@@ -5,10 +5,12 @@ import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.bean.HeaderColumnNameMappingStrategy;
 import com.uoa.di.csr.converter.service_request.AbandonedVehicleCsvToAbandonedVehicleRequest;
 import com.uoa.di.csr.converter.service_request.GarbageCartCsvToGarbageCartRequest;
+import com.uoa.di.csr.converter.service_request.PotHoleCsvToPotHoleRequest;
 import com.uoa.di.csr.converter.service_request.RodentBaitingCsvToRodentBaitingRequest;
 import com.uoa.di.csr.converter.service_request.ServiceRequestCsvToServiceRequest;
 import com.uoa.di.csr.parser.model.AbandonedVehicleCsv;
 import com.uoa.di.csr.parser.model.GarbageCartCsv;
+import com.uoa.di.csr.parser.model.PotHoleCsv;
 import com.uoa.di.csr.parser.model.RodentBaitingCsv;
 import com.uoa.di.csr.parser.model.ServiceRequestCsv;
 import com.uoa.di.csr.repository.ServiceRequestRepository;
@@ -58,6 +60,9 @@ public class ServiceRequestLoadController {
     private GarbageCartCsvToGarbageCartRequest garbageCartCsvToGarbageCartRequest;
 
     @Autowired
+    private PotHoleCsvToPotHoleRequest potHoleCsvToPotHoleRequest;
+
+    @Autowired
     private RodentBaitingCsvToRodentBaitingRequest rodentBaitingCsvToRodentBaitingRequest;
 
     @GetMapping("load-service-requests/{csvFileName}")
@@ -90,6 +95,14 @@ public class ServiceRequestLoadController {
                                 .stream()
                                 .map(rodentBaitingCsv -> rodentBaitingCsvToRodentBaitingRequest.apply(rodentBaitingCsv))
                                 .forEach(serviceRequestRepository::save);
+                        break;
+                    case SERVICE_REQUESTS_POT_HOLES_REPORTED:
+                        List<PotHoleCsv> potHoleCsvList = parseAndSaveServiceRequests(csvFileName, PotHoleCsv.class).parse();
+                        potHoleCsvList
+                                .stream()
+                                .map(potHoleCsv -> potHoleCsvToPotHoleRequest.apply(potHoleCsv))
+                                .forEach(serviceRequestRepository::save);
+                        break;
                     default: //alley-lights-out, street-lights-all-out, street-lights-one-out
                         List<ServiceRequestCsv> serviceRequestCsvList = parseAndSaveServiceRequests(csvFileName, ServiceRequestCsv.class).parse();
                         serviceRequestCsvList

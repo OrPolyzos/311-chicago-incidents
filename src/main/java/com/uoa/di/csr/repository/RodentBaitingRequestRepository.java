@@ -12,4 +12,10 @@ import java.util.Optional;
 public interface RodentBaitingRequestRepository extends CrudRepository<RodentBaitingRequest, Long> {
 
     Optional<RodentBaitingRequest> findBySrId(Long id);
+
+    List<RodentBaitingRequest> findAllByNumberOfPremisesBaitedLessThan(Integer limit);
+
+    List<RodentBaitingRequest> findAllByNumberOfPremisesWithGarbageLessThan(Integer limit);
+
+    List<RodentBaitingRequest> findAllByNumberOfPremisesWithRatsLessThan(Integer limit);
 }

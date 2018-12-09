@@ -1,4 +1,5 @@
 <#import "/spring.ftl" as spring/>
+<#import "service-request-types.ftl" as srTypes/>
 <html>
 <head>
     <title>Service Requests</title>
@@ -9,7 +10,7 @@
 </head>
 <body>
 <#include "../navbar.ftl">
-<#include "create-service-request-modal.ftl"/>
+<#--<#include "create-service-request-modal.ftl"/>-->
 <div class="container" style="position: relative;">
     <form class="form-inline text-center" role="form" action="/user/service-requests" method="POST" name="searchForm">
         <div class="form-inline">
@@ -86,32 +87,53 @@
                 <th class="text-center">
                     Location
                 </th>
+                <th>
+                    Information Per Specific Type
+                </th>
             </tr>
             </thead>
             <tbody>
                 <#if results??>
                     <#list results as serviceRequest>
                         <tr>
-                            <td class="text-center">${serviceRequest.srId!""}</td>
-                            <td class="text-center">${serviceRequest.srNumber!""}</td>
-                            <td class="text-center">${serviceRequest.srType.value!""}</td>
-                            <td class="text-center">${serviceRequest.creationDateTime!""}</td>
-                            <td class="text-center">${serviceRequest.completionDateTime!""}</td>
-                            <td class="text-center">${serviceRequest.zipCode!""}</td>
-                            <td class="text-center">${serviceRequest.streetAddress!""}</td>
-                            <td class="text-center">${serviceRequest.coordinateX!""}</td>
-                            <td class="text-center">${serviceRequest.coordinateY!""}</td>
-                            <td class="text-center">${serviceRequest.ward!""}</td>
-                            <td class="text-center">${serviceRequest.policeDistrict!""}</td>
-                            <td class="text-center">${serviceRequest.communityArea!""}</td>
-                            <td class="text-center">${serviceRequest.longitude!""}</td>
-                            <td class="text-center">${serviceRequest.latitude!""}</td>
-                            <td class="text-center">${serviceRequest.location!""}</td>
+                            <td class="text-center">${serviceRequest.srId!"-"}</td>
+                            <td class="text-center">${serviceRequest.srNumber!"-"}</td>
+                            <td class="text-center">${serviceRequest.srType.value!"-"}</td>
+                            <td class="text-center">${serviceRequest.creationDateTime!"-"}</td>
+                            <td class="text-center">${serviceRequest.completionDateTime!"-"}</td>
+                            <td class="text-center">${serviceRequest.zipCode!"-"}</td>
+                            <td class="text-center">${serviceRequest.streetAddress!"-"}</td>
+                            <td class="text-center">${serviceRequest.coordinateX!"-"}</td>
+                            <td class="text-center">${serviceRequest.coordinateY!"-"}</td>
+                            <td class="text-center">${serviceRequest.ward!"-"}</td>
+                            <td class="text-center">${serviceRequest.policeDistrict!"-"}</td>
+                            <td class="text-center">${serviceRequest.communityArea!"-"}</td>
+                            <td class="text-center">${serviceRequest.longitude!"-"}</td>
+                            <td class="text-center">${serviceRequest.latitude!"-"}</td>
+                            <td class="text-center">${serviceRequest.location!"-"}</td>
+                            <#if serviceRequest.srType.value = srTypes.ABANDONED_VEHICLE_COMPLAINT>
+                                <td class="text-center">
+                                    <#include "specific-type-modals/abandoned-vehicle-modal.ftl"/>
+                                </td>
+                            <#elseif serviceRequest.srType.value = srTypes.GARBAGE_CART>
+                                <td class="text-center">
+                                    <#include "specific-type-modals/garbage-cart-modal.ftl"/>
+                                </td>
+                            <#elseif serviceRequest.srType.value = srTypes.POT_HOLE>
+                                <td class="text-center">
+                                    <#include "specific-type-modals/pot-hole-modal.ftl"/>
+                                </td>
+                            <#elseif serviceRequest.srType.value = srTypes.RODENT_BAITING>
+                                <td class="text-center">
+                                    <#include "specific-type-modals/rodent-baiting-modal.ftl"/>
+                                </td>
+                            <#else>
+                                <td class="text-center">-</td>
+                            </#if>
                         </tr>
                     </#list>
                 </#if>
             </tbody>
-        </table>
     </div>
 </body>
 </html>

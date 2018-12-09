@@ -39,6 +39,15 @@
                     <a href="/user/sf/second-most-common-vehicle-color">Second most common vehicle color</a>
                 </li>
                 <li>
+                    <a href="/user/sf/premises-baited-less-than">Rodent Baiting Requests with Premises baited less than</a>
+                </li>
+                <li>
+                    <a href="/user/sf/premises-with-garbage-less-than">Rodent Baiting Requests with Premises with Garbage less than</a>
+                </li>
+                <li>
+                    <a href="/user/sf/premises-with-rates-less-than">Rodent Baiting Requests with Premises with Rates less than</a>
+                </li>
+                <li>
                     <a href="/logout">Logout</a>
                 </li>
             </ol>

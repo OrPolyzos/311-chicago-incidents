@@ -14,7 +14,5 @@ public interface ServiceRequestRepository extends CrudRepository<ServiceRequest,
 
     Page<ServiceRequest> findAll(Pageable pageable);
 
-    List<ServiceRequest> findAllBySrIdOrStreetAddressLikeOrZipCode(Long id, String streetAddress, Long zipCode);
-
     long count();
 }
