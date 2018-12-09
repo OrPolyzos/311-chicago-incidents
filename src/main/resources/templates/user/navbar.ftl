@@ -9,10 +9,29 @@
                 <span class="icon-bar"></span>
             </button>
             <a href="/user/service-requests" class="navbar-brand">Service Requests</a>
-            <a href="<#--TODO ADD CREATE SERVICE REQUEST-->" data-toggle="modal" data-target="#create-service-request-modal" class="navbar-brand">Create Service Request</a>
         </div>
         <!-- Menu Items -->
         <div id="mainNavBarMob" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Create Service Request
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/user/abandoned-vehicle">Abandoned Vehicle Complaint</a></li>
+                        <li><a href="/user/alley-light-out">Alley Light Out</a></li>
+                        <li><a href="/user/street-lights-all-out">Street Lights - All/Out</a></li>
+                        <li><a href="/user/street-light-one-out">Street Light - 1/Out</a></li>
+                        <li><a href="/user/garbage-cart">Garbage Cart Black Maintenance/Replacement</a></li>
+                        <li><a href="/user/rodent-baiting">Rodent Baiting/Rat Complaint</a></li>
+                        <li><a href="/user/pot-hole">Pot Hole in Street</a></li>
+                        <li><a href="/user/graffiti-removal">Graffiti Removal</a></li>
+                        <li><a href="/user/tree-debris">Tree Debris</a></li>
+                        <li><a href="/user/tree-trim">Tree Trim</a></li>
+                        <li><a href="/user/tree-sanitation-code">Sanitation Code Violation</a></li>
+                        <li><a href="/user/vacant-building">Vacant/Abandoned Building</a></li>
+                    </ul>
+                </li>
+            </ul>
             <ol class="nav navbar-nav navbar-right">
                 <li>
                     <a href="/user/sf/requests-per-type-in-range">Total requests per type in a specific time range</a>

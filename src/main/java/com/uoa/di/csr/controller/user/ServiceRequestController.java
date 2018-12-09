@@ -59,7 +59,6 @@ public class ServiceRequestController extends BaseController {
 
     private static final String RESULTS = "results";
     private static final String SEARCH_FORM = "searchForm";
-    private static final String BINDING_RESULT_CONSTANT = "org.springframework.validation.BindingResult.";
     private static final String SERVICE_REQUESTS_TYPES = "serviceRequestTypes";
     private static final String RODENT_BAITING_MESSAGE_HOLDER = "rodentBaitingMessageHolder";
     private static final String NUMBER_OF_PREMISES_BAITED = "Number of Premises Baited";

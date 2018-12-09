@@ -4,6 +4,8 @@ import com.opencsv.bean.CsvBindByName;
 
 public class ServiceRequestCsv {
 
+    private Long serviceRequestId;
+
     @CsvBindByName(column = "Creation Date")
     protected String creationDateTime;
 
@@ -40,14 +42,22 @@ public class ServiceRequestCsv {
     @CsvBindByName(column = "Community Area")
     protected String communityArea;
 
-    @CsvBindByName(column = "Latitude")
+    @CsvBindByName(column = "Longitude")
     protected String longitude;
 
-    @CsvBindByName(column = "Longitude")
+    @CsvBindByName(column = "Latitude")
     protected String latitude;
 
     @CsvBindByName(column = "Location")
     protected String location;
+
+    public Long getServiceRequestId() {
+        return serviceRequestId;
+    }
+
+    public void setServiceRequestId(Long serviceRequestId) {
+        this.serviceRequestId = serviceRequestId;
+    }
 
     public String getCreationDateTime() {
         return creationDateTime;
