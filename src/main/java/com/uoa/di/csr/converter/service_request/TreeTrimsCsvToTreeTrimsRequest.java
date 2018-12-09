@@ -1,8 +1,6 @@
 package com.uoa.di.csr.converter.service_request;
 
-import com.uoa.di.csr.domain.Activity;
 import com.uoa.di.csr.domain.ServiceRequest;
-import com.uoa.di.csr.domain.SpecialServiceArea;
 import com.uoa.di.csr.domain.TreeTrimsRequest;
 import com.uoa.di.csr.parser.model.TreeTrimsCsv;
 import org.springframework.beans.factory.annotation.Autowired;

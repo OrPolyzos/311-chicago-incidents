@@ -17,11 +17,13 @@
                                 <fieldset>
                                     <div class="form-group">
                                         <label for="whatTypeOfSurfaceTheGraffitiIsOn-${serviceRequest.srId?c}">Type of Surface</label>
-                                        <input type="text" class="form-control" id="whatTypeOfSurfaceTheGraffitiIsOn-${serviceRequest.srId?c}" name="whatTypeOfSurfaceTheGraffitiIsOn" value="${serviceRequest.whatTypeOfSurfaceTheGraffitiIsOn!"-"}" disabled/>
+                                        <input type="text" class="form-control" id="whatTypeOfSurfaceTheGraffitiIsOn-${serviceRequest.srId?c}" name="whatTypeOfSurfaceTheGraffitiIsOn"
+                                               value="${serviceRequest.whatTypeOfSurfaceTheGraffitiIsOn!"-"}" disabled/>
                                     </div>
                                     <div class="form-group">
                                         <label for="whereIsTheGraffitiLocated-${serviceRequest.srId?c}">Where is Located</label>
-                                        <input type="text" class="form-control" id="whereIsTheGraffitiLocated-${serviceRequest.srId?c}" name="whereIsTheGraffitiLocated" value="${serviceRequest.whereIsTheGraffitiLocated!"-"}" disabled/>
+                                        <input type="text" class="form-control" id="whereIsTheGraffitiLocated-${serviceRequest.srId?c}" name="whereIsTheGraffitiLocated"
+                                               value="${serviceRequest.whereIsTheGraffitiLocated!"-"}" disabled/>
                                     </div>
                                     <#if serviceRequest.activity??>
                                         <#include "../activity.ftl">

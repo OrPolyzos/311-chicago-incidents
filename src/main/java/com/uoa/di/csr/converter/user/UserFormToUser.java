@@ -4,7 +4,6 @@ import com.uoa.di.csr.domain.User;
 import com.uoa.di.csr.model.user.UserForm;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
 import java.util.function.Function;
 
 @Component

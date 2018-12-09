@@ -16,8 +16,9 @@
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <fieldset>
                                     <div class="form-group">
-                                        <label for="numberOfPotholesFilledOnBlock-${serviceRequest.srId?c}">Number of Pot  Holes Filled on Block</label>
-                                        <input type="text" class="form-control" id="numberOfPotholesFilledOnBlock-${serviceRequest.srId?c}" name="numberOfPotholesFilledOnBlock" value="${serviceRequest.numberOfPotholesFilledOnBlock!"-"}" disabled/>
+                                        <label for="numberOfPotholesFilledOnBlock-${serviceRequest.srId?c}">Number of Pot Holes Filled on Block</label>
+                                        <input type="text" class="form-control" id="numberOfPotholesFilledOnBlock-${serviceRequest.srId?c}" name="numberOfPotholesFilledOnBlock"
+                                               value="${serviceRequest.numberOfPotholesFilledOnBlock!"-"}" disabled/>
                                     </div>
                                     <#if serviceRequest.activity??>
                                         <#include "../activity.ftl">

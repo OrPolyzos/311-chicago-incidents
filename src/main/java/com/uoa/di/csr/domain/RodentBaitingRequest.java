@@ -1,14 +1,21 @@
 package com.uoa.di.csr.domain;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
-@Entity(name = "rodent_baiting_requests")
+@Entity
+@Table(name = "rodent_baiting_requests",
+        indexes = {
+                @Index(name = "premises_baited_index", columnList = "premises_baited"),
+                @Index(name = "premises_with_garbage_index", columnList = "premises_with_garbage"),
+                @Index(name = "premises_with_rats_index", columnList = "premises_with_rats"),
+        })
 @DiscriminatorValue(value = "RodentBaitingRequest")
-public class RodentBaitingRequest extends ServiceRequest {
+public class RodentBaitingRequest extends ServiceRequest implements SsaRequest, ActivityRequest {
 
     @Column(name = "premises_baited")
     private Integer numberOfPremisesBaited;
@@ -19,10 +26,10 @@ public class RodentBaitingRequest extends ServiceRequest {
     @Column(name = "premises_with_rats")
     private Integer numberOfPremisesWithRats;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private Activity activity;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private SpecialServiceArea specialServiceArea;
 
     public Integer getNumberOfPremisesBaited() {

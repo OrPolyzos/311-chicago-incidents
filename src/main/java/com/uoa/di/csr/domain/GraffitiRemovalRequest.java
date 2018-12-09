@@ -1,6 +1,5 @@
 package com.uoa.di.csr.domain;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -8,7 +7,7 @@ import javax.persistence.OneToOne;
 
 @Entity(name = "graffiti_removal_requests")
 @DiscriminatorValue(value = "GraffitiRemovalRequest")
-public class GraffitiRemovalRequest extends ServiceRequest {
+public class GraffitiRemovalRequest extends ServiceRequest implements SsaRequest {
 
     @Column(name = "type_of_surface")
     private String whatTypeOfSurfaceTheGraffitiIsOn;
@@ -16,7 +15,7 @@ public class GraffitiRemovalRequest extends ServiceRequest {
     @Column(name = "where_is_located")
     private String whereIsTheGraffitiLocated;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private SpecialServiceArea specialServiceArea;
 
     public String getWhatTypeOfSurfaceTheGraffitiIsOn() {

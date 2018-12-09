@@ -2,7 +2,7 @@ package com.uoa.di.csr.parser.model;
 
 import com.opencsv.bean.CsvBindByName;
 
-public class GraffitiRemovalCsv extends ServiceRequestCsv {
+public class GraffitiRemovalCsv extends ServiceRequestCsv implements SsaCsv {
 
     @CsvBindByName(column = "What Type of Surface is the Graffiti on?")
     private String whatTypeOfSurfaceTheGraffitiIsOn;

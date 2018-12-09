@@ -5,8 +5,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.Table;
 
-@Entity(name = "special_service_area")
+@Entity
+@Table(name = "special_service_area",
+        indexes = {
+                @Index(name = "ssa_index", columnList = "ssa", unique = true)
+        })
 public class SpecialServiceArea {
 
     @Id

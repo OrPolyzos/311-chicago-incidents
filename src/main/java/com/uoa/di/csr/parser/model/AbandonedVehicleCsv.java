@@ -2,7 +2,7 @@ package com.uoa.di.csr.parser.model;
 
 import com.opencsv.bean.CsvBindByName;
 
-public class AbandonedVehicleCsv extends ServiceRequestCsv {
+public class AbandonedVehicleCsv extends ServiceRequestCsv implements SsaCsv, ActivityCsv {
 
     @CsvBindByName(column = "License Plate")
     private String licensePlate;

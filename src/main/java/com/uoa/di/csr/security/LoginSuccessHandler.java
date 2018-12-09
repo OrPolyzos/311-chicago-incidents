@@ -10,9 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.uoa.di.csr.security.SecurityHelper.ADMIN_ROLE;
-import static com.uoa.di.csr.security.SecurityHelper.ADMIN_SUCCESS_URL;
-import static com.uoa.di.csr.security.SecurityHelper.USER_SUCCESS_URL;
+import static com.uoa.di.csr.security.SecurityHelper.*;
 
 @Component
 public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {

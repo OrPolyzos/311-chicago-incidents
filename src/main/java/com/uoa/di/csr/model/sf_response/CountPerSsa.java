@@ -8,7 +8,7 @@ public class CountPerSsa {
     private BigInteger count;
 
     public CountPerSsa(Object ssa, Object count) {
-        this.ssa= (BigInteger) ssa;
+        this.ssa = (BigInteger) ssa;
         this.count = (BigInteger) count;
     }
 

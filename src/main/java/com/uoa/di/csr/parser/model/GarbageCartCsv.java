@@ -2,7 +2,7 @@ package com.uoa.di.csr.parser.model;
 
 import com.opencsv.bean.CsvBindByName;
 
-public class GarbageCartCsv extends ServiceRequestCsv {
+public class GarbageCartCsv extends ServiceRequestCsv implements SsaCsv, ActivityCsv {
 
     @CsvBindByName(column = "Number of Black Carts Delivered")
     private String numberOfBlackCartsDelivered;

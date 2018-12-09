@@ -87,7 +87,7 @@ public class ServiceRequestController extends BaseController {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute(BINDING_RESULT_CONSTANT + SEARCH_FORM, bindingResult);
             redirectAttributes.addFlashAttribute(SEARCH_FORM, searchForm);
-            return redirect(SERVICE_REQUESTS_URI);
+            return redirectToUri(SERVICE_REQUESTS_URI);
         }
         List<ServiceRequest> results = serviceRequestService.findAllByIdOrStreetOrZipCode(searchForm);
         model.addAttribute(RESULTS, results);
@@ -107,7 +107,7 @@ public class ServiceRequestController extends BaseController {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute(BINDING_RESULT_CONSTANT + SEARCH_FORM, bindingResult);
             redirectAttributes.addFlashAttribute(SEARCH_FORM, searchForm);
-            return redirect(STORED_FUNCTION_ONE_URI);
+            return redirectToUri(STORED_FUNCTION_ONE_URI);
         }
         model.addAttribute(RESULTS, serviceRequestRepository.getTotalRequestsPerTypeInRange(searchForm.getFromTime(), searchForm.getToTime()));
         return STORED_FUNCTION_ONE_VIEW;
@@ -127,7 +127,7 @@ public class ServiceRequestController extends BaseController {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute(BINDING_RESULT_CONSTANT + SEARCH_FORM, bindingResult);
             redirectAttributes.addFlashAttribute(SEARCH_FORM, searchForm);
-            return redirect(STORED_FUNCTION_TWO_URI);
+            return redirectToUri(STORED_FUNCTION_TWO_URI);
         }
         model.addAttribute(SERVICE_REQUESTS_TYPES, ServiceRequestType.values());
         model.addAttribute(RESULTS, serviceRequestRepository.getTotalRequestsPerDayWithTypeInRange(ServiceRequestType.reverseValue(searchForm.getServiceRequestType()), searchForm.getFromTime(), searchForm.getToTime()));
@@ -147,7 +147,7 @@ public class ServiceRequestController extends BaseController {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute(BINDING_RESULT_CONSTANT + SEARCH_FORM, bindingResult);
             redirectAttributes.addFlashAttribute(SEARCH_FORM, searchForm);
-            return redirect(STORED_FUNCTION_THREE_URI);
+            return redirectToUri(STORED_FUNCTION_THREE_URI);
         }
         model.addAttribute(RESULTS, serviceRequestRepository.getMostCommonRequestTypesPerZipCodeForDay(searchForm.getTime().atStartOfDay()));
         return STORED_FUNCTION_THREE_VIEW;
@@ -166,7 +166,7 @@ public class ServiceRequestController extends BaseController {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute(BINDING_RESULT_CONSTANT + SEARCH_FORM, bindingResult);
             redirectAttributes.addFlashAttribute(SEARCH_FORM, searchForm);
-            return redirect(STORED_FUNCTION_FOUR_URI);
+            return redirectToUri(STORED_FUNCTION_FOUR_URI);
         }
         model.addAttribute(RESULTS, serviceRequestRepository.getAvgCompletionTimePerTypeInRange(searchForm.getFromTime(), searchForm.getToTime()));
         return STORED_FUNCTION_FOUR_VIEW;
@@ -185,7 +185,7 @@ public class ServiceRequestController extends BaseController {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute(BINDING_RESULT_CONSTANT + SEARCH_FORM, bindingResult);
             redirectAttributes.addFlashAttribute(SEARCH_FORM, searchForm);
-            return redirect(STORED_FUNCTION_FIVE_URI);
+            return redirectToUri(STORED_FUNCTION_FIVE_URI);
         }
         model.addAttribute(RESULTS, serviceRequestRepository.getMostCommonRequestInBoundingBoxForDay(searchForm.getMinX(), searchForm.getMinY(), searchForm.getMaxX(), searchForm.getMaxY(), searchForm.getTime().atStartOfDay()));
         return STORED_FUNCTION_FIVE_VIEW;
@@ -204,7 +204,7 @@ public class ServiceRequestController extends BaseController {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute(BINDING_RESULT_CONSTANT + SEARCH_FORM, bindingResult);
             redirectAttributes.addFlashAttribute(SEARCH_FORM, searchForm);
-            return redirect(STORED_FUNCTION_SIX_URI);
+            return redirectToUri(STORED_FUNCTION_SIX_URI);
         }
         model.addAttribute(RESULTS, serviceRequestRepository.getTopFiveSsaInRegardToTotalNumberOfRequestsInRange(searchForm.getFromTime(), searchForm.getToTime()));
         return STORED_FUNCTION_SIX_VIEW;
@@ -237,7 +237,7 @@ public class ServiceRequestController extends BaseController {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute(BINDING_RESULT_CONSTANT + SEARCH_FORM, bindingResult);
             redirectAttributes.addFlashAttribute(SEARCH_FORM, searchForm);
-            return redirect(STORED_FUNCTION_NINE_URI);
+            return redirectToUri(STORED_FUNCTION_NINE_URI);
         }
         model.addAttribute(RODENT_BAITING_MESSAGE_HOLDER, NUMBER_OF_PREMISES_BAITED);
         model.addAttribute(RODENT_BAITING_URI_HOLDER, STORED_FUNCTION_NINE_URI);
@@ -260,7 +260,7 @@ public class ServiceRequestController extends BaseController {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute(BINDING_RESULT_CONSTANT + SEARCH_FORM, bindingResult);
             redirectAttributes.addFlashAttribute(SEARCH_FORM, searchForm);
-            return redirect(STORED_FUNCTION_TEN_URI);
+            return redirectToUri(STORED_FUNCTION_TEN_URI);
         }
         model.addAttribute(RODENT_BAITING_URI_HOLDER, STORED_FUNCTION_TEN_URI);
         model.addAttribute(RODENT_BAITING_MESSAGE_HOLDER, NUMBER_OF_PREMISES_WITH_GARBAGE);
@@ -283,7 +283,7 @@ public class ServiceRequestController extends BaseController {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute(BINDING_RESULT_CONSTANT + SEARCH_FORM, bindingResult);
             redirectAttributes.addFlashAttribute(SEARCH_FORM, searchForm);
-            return redirect(STORED_FUNCTION_ELEVEN_URI);
+            return redirectToUri(STORED_FUNCTION_ELEVEN_URI);
         }
         model.addAttribute(RODENT_BAITING_URI_HOLDER, STORED_FUNCTION_ELEVEN_URI);
         model.addAttribute(RODENT_BAITING_MESSAGE_HOLDER, NUMBER_OF_PREMISES_BAITED);

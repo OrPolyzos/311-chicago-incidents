@@ -39,60 +39,60 @@
     </form>
 </div>
 <div class="container col-lg-12 col-md-12 col-sm-12 co-xs-12">
-        <table id="resultsTable" class="table table-responsive table-striped table-hover custom-data-table">
-            <thead>
-            <tr>
-                <th class="text-center">
-                    ID
-                </th>
-                <th class="text-center">
-                    SrNumber
-                </th>
-                <th class="text-center">
-                    Type
-                </th>
-                <th class="text-center">
-                    Creation DT
-                </th>
-                <th class="text-center">
-                    Completion DT
-                </th>
-                <th class="text-center">
-                    Zip Code
-                </th>
-                <th class="text-center">
-                    Street Address
-                </th>
-                <th class="text-center">
-                    Coord. X
-                </th>
-                <th class="text-center">
-                    Coord. Y
-                </th>
-                <th class="text-center">
-                    Ward
-                </th>
-                <th class="text-center">
-                    Police District
-                </th>
-                <th class="text-center">
-                    Community Area
-                </th>
-                <th class="text-center">
-                    Longitude
-                </th>
-                <th class="text-center">
-                    Latitude
-                </th>
-                <th class="text-center">
-                    Location
-                </th>
-                <th>
-                    Information Per Specific Type
-                </th>
-            </tr>
-            </thead>
-            <tbody>
+    <table id="resultsTable" class="table table-responsive table-striped table-hover custom-data-table">
+        <thead>
+        <tr>
+            <th class="text-center">
+                ID
+            </th>
+            <th class="text-center">
+                SrNumber
+            </th>
+            <th class="text-center">
+                Type
+            </th>
+            <th class="text-center">
+                Creation DT
+            </th>
+            <th class="text-center">
+                Completion DT
+            </th>
+            <th class="text-center">
+                Zip Code
+            </th>
+            <th class="text-center">
+                Street Address
+            </th>
+            <th class="text-center">
+                Coord. X
+            </th>
+            <th class="text-center">
+                Coord. Y
+            </th>
+            <th class="text-center">
+                Ward
+            </th>
+            <th class="text-center">
+                Police District
+            </th>
+            <th class="text-center">
+                Community Area
+            </th>
+            <th class="text-center">
+                Longitude
+            </th>
+            <th class="text-center">
+                Latitude
+            </th>
+            <th class="text-center">
+                Location
+            </th>
+            <th>
+                Information Per Specific Type
+            </th>
+        </tr>
+        </thead>
+        <tbody>
                 <#if results??>
                     <#list results as serviceRequest>
                         <tr>
@@ -153,7 +153,7 @@
                         </tr>
                     </#list>
                 </#if>
-            </tbody>
-    </div>
+        </tbody>
+</div>
 </body>
 </html>

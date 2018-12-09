@@ -1,22 +1,27 @@
 package com.uoa.di.csr.domain;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
-@Entity(name = "pot_hole_requests")
+@Entity
+@Table(name = "pot_hole_requests",
+        indexes = {
+                @Index(name = "pot_holes_filled_on_block_index", columnList = "pot_holes_filled_on_block")
+        })
 @DiscriminatorValue(value = "PotHoleRequest")
-public class PotHoleRequest extends ServiceRequest {
+public class PotHoleRequest extends ServiceRequest implements SsaRequest, ActivityRequest {
 
     @Column(name = "pot_holes_filled_on_block")
     private Integer numberOfPotholesFilledOnBlock;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private Activity activity;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private SpecialServiceArea specialServiceArea;
 
     public Integer getNumberOfPotholesFilledOnBlock() {

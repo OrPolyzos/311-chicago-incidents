@@ -17,7 +17,8 @@
                                 <fieldset>
                                     <div class="form-group">
                                         <label for="natureOfThisCodeViolation-${serviceRequest.srId?c}">,What is the Nature of this Code Violation?</label>
-                                        <input type="text" class="form-control" id="natureOfThisCodeViolation-${serviceRequest.srId?c}" name="natureOfThisCodeViolation" value="${serviceRequest.natureOfThisCodeViolation!"-"}" disabled/>
+                                        <input type="text" class="form-control" id="natureOfThisCodeViolation-${serviceRequest.srId?c}" name="natureOfThisCodeViolation"
+                                               value="${serviceRequest.natureOfThisCodeViolation!"-"}" disabled/>
                                     </div>
                                 </fieldset>
                             </div>

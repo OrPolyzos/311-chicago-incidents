@@ -1,6 +1,5 @@
 package com.uoa.di.csr.domain;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -8,15 +7,15 @@ import javax.persistence.OneToOne;
 
 @Entity(name = "garbage_carts_requests")
 @DiscriminatorValue(value = "GarbageCartRequest")
-public class GarbageCartRequest extends ServiceRequest {
+public class GarbageCartRequest extends ServiceRequest implements SsaRequest, ActivityRequest {
 
     @Column(name = "black_carts_delivered")
     private Integer numberOfBlackCartsDelivered;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private Activity activity;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private SpecialServiceArea specialServiceArea;
 
     public Integer getNumberOfBlackCartsDelivered() {

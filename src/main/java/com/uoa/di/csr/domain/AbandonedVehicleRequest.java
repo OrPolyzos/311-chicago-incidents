@@ -1,14 +1,19 @@
 package com.uoa.di.csr.domain;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
-@Entity(name = "abandoned_vehicle_requests")
+@Entity
+@Table(name = "abandoned_vehicle_requests",
+        indexes = {
+                @Index(name = "licence_plate_index", columnList = "licence_plate")
+        })
 @DiscriminatorValue(value = "AbandonedVehicleRequest")
-public class AbandonedVehicleRequest extends ServiceRequest {
+public class AbandonedVehicleRequest extends ServiceRequest implements SsaRequest, ActivityRequest {
 
     @Column(name = "licence_plate")
     private String licensePlate;
@@ -22,10 +27,10 @@ public class AbandonedVehicleRequest extends ServiceRequest {
     @Column(name = "days_reported_as_parked")
     private Integer howManyDaysReportedAsParked;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private Activity activity;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private SpecialServiceArea specialServiceArea;
 
     public String getLicensePlate() {

@@ -21,7 +21,8 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="vehicleMakeModel-${serviceRequest.srId?c}">Vehicle Make Model</label>
-                                        <input type="text" class="form-control" id="vehicleMakeModel-${serviceRequest.srId?c}" name="vehicleMakeModel" value="${serviceRequest.vehicleMakeModel!"-"}" disabled/>
+                                        <input type="text" class="form-control" id="vehicleMakeModel-${serviceRequest.srId?c}" name="vehicleMakeModel" value="${serviceRequest.vehicleMakeModel!"-"}"
+                                               disabled/>
                                     </div>
                                     <div class="form-group">
                                         <label for="vehicleColor-${serviceRequest.srId?c}">Vehicle Color</label>
@@ -29,7 +30,8 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="howManyDaysReportedAsParked-${serviceRequest.srId?c}">How Many Days Reported as Parked</label>
-                                        <input type="text" class="form-control" id="howManyDaysReportedAsParked-${serviceRequest.srId?c}" name="howManyDaysReportedAsParked" value="${serviceRequest.howManyDaysReportedAsParked!"-"}" disabled/>
+                                        <input type="text" class="form-control" id="howManyDaysReportedAsParked-${serviceRequest.srId?c}" name="howManyDaysReportedAsParked"
+                                               value="${serviceRequest.howManyDaysReportedAsParked!"-"}" disabled/>
                                     </div>
                                     <#if serviceRequest.activity??>
                                         <#include "../activity.ftl">

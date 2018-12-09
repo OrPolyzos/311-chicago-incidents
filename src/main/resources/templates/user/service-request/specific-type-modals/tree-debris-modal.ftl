@@ -17,7 +17,8 @@
                                 <fieldset>
                                     <div class="form-group">
                                         <label for="whereIsTheDebrisLocated-${serviceRequest.srId?c}">Where is the Tree Debris Located</label>
-                                        <input type="text" class="form-control" id="whereIsTheDebrisLocated-${serviceRequest.srId?c}" name="whereIsTheDebrisLocated" value="${serviceRequest.whereIsTheDebrisLocated!"-"}" disabled/>
+                                        <input type="text" class="form-control" id="whereIsTheDebrisLocated-${serviceRequest.srId?c}" name="whereIsTheDebrisLocated"
+                                               value="${serviceRequest.whereIsTheDebrisLocated!"-"}" disabled/>
                                     </div>
                                     <#if serviceRequest.activity??>
                                         <#include "../activity.ftl">

@@ -1,10 +1,8 @@
 package com.uoa.di.csr.domain;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
 
 @Entity(name = "tree_trims_requests")
 @DiscriminatorValue(value = "TreeTrimsRequest")

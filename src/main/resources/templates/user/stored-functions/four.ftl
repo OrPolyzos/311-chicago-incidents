@@ -37,7 +37,7 @@
             <th class="text-center">
                 Service Request Type
             </th>
-            <#--TODO MAYBE ADD SECONDS/MINUTES/DAYS options (through javascript)-->
+        <#--TODO MAYBE ADD SECONDS/MINUTES/DAYS options (through javascript)-->
             <th class="text-center">
                 Average Completion Time (seconds)
             </th>

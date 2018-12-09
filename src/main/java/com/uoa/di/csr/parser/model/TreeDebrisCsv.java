@@ -2,7 +2,7 @@ package com.uoa.di.csr.parser.model;
 
 import com.opencsv.bean.CsvBindByName;
 
-public class TreeDebrisCsv extends ServiceRequestCsv {
+public class TreeDebrisCsv extends ServiceRequestCsv implements SsaCsv, ActivityCsv {
 
     @CsvBindByName(column = "If Yes, where is the debris located?")
     private String whereIsDebrisLocated;

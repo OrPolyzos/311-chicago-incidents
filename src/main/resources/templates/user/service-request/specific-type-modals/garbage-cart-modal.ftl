@@ -17,7 +17,8 @@
                                 <fieldset>
                                     <div class="form-group">
                                         <label for="numberOfBlackCartsDelivered-${serviceRequest.srId?c}">Number of Black Carts Delivered</label>
-                                        <input type="text" class="form-control" id="numberOfBlackCartsDelivered-${serviceRequest.srId?c}" name="numberOfBlackCartsDelivered" value="${serviceRequest.numberOfBlackCartsDelivered!"-"}" disabled/>
+                                        <input type="text" class="form-control" id="numberOfBlackCartsDelivered-${serviceRequest.srId?c}" name="numberOfBlackCartsDelivered"
+                                               value="${serviceRequest.numberOfBlackCartsDelivered!"-"}" disabled/>
                                     </div>
                                     <#if serviceRequest.activity??>
                                         <#include "../activity.ftl">

@@ -28,19 +28,19 @@ public class LoginController extends BaseController {
 
     @RequestMapping(value = "/")
     public String getIndex() {
-        return redirect(LOGIN_URI);
+        return redirectToUri(LOGIN_URI);
     }
 
     @RequestMapping(value = LOGIN_URI, method = RequestMethod.GET)
     public String login(Model model, @RequestParam(name = ERROR_URI_PARAM, required = false) String error) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (securityHelper.checkForRole(authentication, ADMIN_ROLE)) {
-            return redirect(ADMIN_SUCCESS_URL);
+            return redirectToUri(ADMIN_SUCCESS_URL);
         } else if (securityHelper.checkForRole(authentication, USER_ROLE)) {
-            return redirect(USER_SUCCESS_URL);
+            return redirectToUri(USER_SUCCESS_URL);
         }
 
-        if (error != null){
+        if (error != null) {
             model.addAttribute(ERROR_MESSAGE, InvalidCredentialsException.getInvalidCredentialsMessage());
         }
 

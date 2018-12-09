@@ -9,10 +9,15 @@ import javax.persistence.Index;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Entity(name = "service_requests")
+@Entity
+@Table(name = "service_requests",
+        indexes = {
+                @Index(name = "sr_type_index", columnList = "sr_type"),
+                @Index(name = "creation_date_time_index", columnList = "creation_date_time"),
+                @Index(name = "zip_code_index", columnList = "zip_code")
+        })
 @Inheritance(strategy = InheritanceType.JOINED)
 public class ServiceRequest {
 

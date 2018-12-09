@@ -1,8 +1,17 @@
 package com.uoa.di.csr.converter.service_request;
 
+import com.uoa.di.csr.domain.Activity;
+import com.uoa.di.csr.domain.ActivityRequest;
 import com.uoa.di.csr.domain.ServiceRequest;
 import com.uoa.di.csr.domain.ServiceRequestType;
+import com.uoa.di.csr.domain.SpecialServiceArea;
+import com.uoa.di.csr.domain.SsaRequest;
+import com.uoa.di.csr.parser.model.ActivityCsv;
 import com.uoa.di.csr.parser.model.ServiceRequestCsv;
+import com.uoa.di.csr.parser.model.SsaCsv;
+import com.uoa.di.csr.service.ActivityService;
+import com.uoa.di.csr.service.SpecialAreaService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -13,6 +22,12 @@ import java.util.function.Function;
 public class ServiceRequestCsvToServiceRequest implements Function<ServiceRequestCsv, ServiceRequest> {
 
     private static final String EMPTY_STRING = "";
+
+    @Autowired
+    private SpecialAreaService specialAreaService;
+
+    @Autowired
+    private ActivityService activityService;
 
     @Override
     public ServiceRequest apply(ServiceRequestCsv serviceRequestCsv) {
@@ -56,5 +71,22 @@ public class ServiceRequestCsvToServiceRequest implements Function<ServiceReques
 
     protected Optional<String> mapToOptional(String value) {
         return value == null || value.equals(EMPTY_STRING) ? Optional.empty() : Optional.of(value);
+    }
+
+    protected void manageSsaIfExists(SsaCsv ssaCsv, SsaRequest ssaRequest) {
+        SpecialServiceArea specialServiceArea = new SpecialServiceArea();
+        specialServiceArea.setSsa(mapToOptional(ssaCsv.getSsa()).isPresent() ? Integer.valueOf(ssaCsv.getSsa()) : null);
+
+        SpecialServiceArea specialServiceAreaToUse = specialAreaService.save(specialServiceArea);
+        ssaRequest.setSpecialServiceArea(specialServiceAreaToUse);
+    }
+
+    protected void manageActivityIfExists(ActivityCsv activityCsv, ActivityRequest activityRequest) {
+        Activity activity = new Activity();
+        activity.setCurrentActivity(mapToOptional(activityCsv.getCurrentActivity()).isPresent() ? activityCsv.getCurrentActivity() : null);
+        activity.setMostRecentAction(mapToOptional(activityCsv.getMostRecentAction()).isPresent() ? activityCsv.getMostRecentAction() : null);
+
+        Activity activityToUse = activityService.save(activity);
+        activityRequest.setActivity(activityToUse);
     }
 }

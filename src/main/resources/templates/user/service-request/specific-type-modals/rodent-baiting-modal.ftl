@@ -17,15 +17,18 @@
                                 <fieldset>
                                     <div class="form-group">
                                         <label for="numberOfPremisesBaited-${serviceRequest.srId?c}">Number of Premises Baited</label>
-                                        <input type="text" class="form-control" id="numberOfPremisesBaited-${serviceRequest.srId?c}" name="numberOfPremisesBaited" value="${serviceRequest.numberOfPremisesBaited!"-"}" disabled/>
+                                        <input type="text" class="form-control" id="numberOfPremisesBaited-${serviceRequest.srId?c}" name="numberOfPremisesBaited"
+                                               value="${serviceRequest.numberOfPremisesBaited!"-"}" disabled/>
                                     </div>
                                     <div class="form-group">
                                         <label for="numberOfPremisesWithGarbage-${serviceRequest.srId?c}">Number of Premises with Garbage</label>
-                                        <input type="text" class="form-control" id="numberOfPremisesWithGarbage-${serviceRequest.srId?c}" name="numberOfPremisesWithGarbage" value="${serviceRequest.numberOfPremisesWithGarbage!"-"}" disabled/>
+                                        <input type="text" class="form-control" id="numberOfPremisesWithGarbage-${serviceRequest.srId?c}" name="numberOfPremisesWithGarbage"
+                                               value="${serviceRequest.numberOfPremisesWithGarbage!"-"}" disabled/>
                                     </div>
                                     <div class="form-group">
                                         <label for="numberOfPremisesWithRats-${serviceRequest.srId?c}">Number of Premises with Rats</label>
-                                        <input type="text" class="form-control" id="numberOfPremisesWithRats-${serviceRequest.srId?c}" name="numberOfPremisesWithRats" value="${serviceRequest.numberOfPremisesWithRats!"-"}" disabled/>
+                                        <input type="text" class="form-control" id="numberOfPremisesWithRats-${serviceRequest.srId?c}" name="numberOfPremisesWithRats"
+                                               value="${serviceRequest.numberOfPremisesWithRats!"-"}" disabled/>
                                     </div>
 
                                     <#if serviceRequest.activity??>
