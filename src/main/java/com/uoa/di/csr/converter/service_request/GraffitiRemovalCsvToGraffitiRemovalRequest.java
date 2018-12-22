@@ -20,8 +20,8 @@ public class GraffitiRemovalCsvToGraffitiRemovalRequest implements Function<Graf
         GraffitiRemovalRequest graffitiRemovalRequest = new GraffitiRemovalRequest();
         serviceRequestCsvToServiceRequest.passParentValues(serviceRequest, graffitiRemovalRequest);
         //TODO REVISIT FOR Nullable handling - Maybe set default value to avoid nulls in database
-        graffitiRemovalRequest.setWhatTypeOfSurfaceTheGraffitiIsOn(serviceRequestCsvToServiceRequest.mapToOptional(graffitiRemovalCsv.getWhatTypeOfSurfaceTheGraffitiIsOn()).isPresent() ? graffitiRemovalCsv.getWhatTypeOfSurfaceTheGraffitiIsOn() : null);
-        graffitiRemovalRequest.setWhereIsTheGraffitiLocated(serviceRequestCsvToServiceRequest.mapToOptional(graffitiRemovalCsv.getWhereIsTheGraffitiLocated()).isPresent() ? graffitiRemovalCsv.getWhereIsTheGraffitiLocated() : null);
+        graffitiRemovalRequest.setWhatTypeOfSurfaceTheGraffitiIsOn(serviceRequestCsvToServiceRequest.safeParse(graffitiRemovalCsv.getWhatTypeOfSurfaceTheGraffitiIsOn(), Function.identity()));
+        graffitiRemovalRequest.setWhereIsTheGraffitiLocated(serviceRequestCsvToServiceRequest.safeParse(graffitiRemovalCsv.getWhereIsTheGraffitiLocated(), Function.identity()));
 
         serviceRequestCsvToServiceRequest.manageSsaIfExists(graffitiRemovalCsv, graffitiRemovalRequest);
         return graffitiRemovalRequest;

@@ -16,7 +16,7 @@ import javax.persistence.Table;
 public class PotHoleRequest extends ServiceRequest implements SsaRequest, ActivityRequest {
 
     @Column(name = "pot_holes_filled_on_block")
-    private Integer numberOfPotholesFilledOnBlock;
+    private Long numberOfPotholesFilledOnBlock;
 
     @OneToOne
     private Activity activity;
@@ -24,11 +24,11 @@ public class PotHoleRequest extends ServiceRequest implements SsaRequest, Activi
     @OneToOne
     private SpecialServiceArea specialServiceArea;
 
-    public Integer getNumberOfPotholesFilledOnBlock() {
+    public Long getNumberOfPotholesFilledOnBlock() {
         return numberOfPotholesFilledOnBlock;
     }
 
-    public void setNumberOfPotholesFilledOnBlock(Integer numberOfPotholesFilledOnBlock) {
+    public void setNumberOfPotholesFilledOnBlock(Long numberOfPotholesFilledOnBlock) {
         this.numberOfPotholesFilledOnBlock = numberOfPotholesFilledOnBlock;
     }
 

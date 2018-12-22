@@ -20,7 +20,7 @@ public class PotHoleCsvToPotHoleRequest implements Function<PotHoleCsv, PotHoleR
         PotHoleRequest potHoleRequest = new PotHoleRequest();
         serviceRequestCsvToServiceRequest.passParentValues(serviceRequest, potHoleRequest);
         //TODO REVISIT FOR Nullable handling - Maybe set default value to avoid nulls in database
-        potHoleRequest.setNumberOfPotholesFilledOnBlock(serviceRequestCsvToServiceRequest.mapToOptional(potHoleCsv.getNumberOfPotholesFilledOnBlock()).isPresent() ? Integer.valueOf(potHoleCsv.getNumberOfPotholesFilledOnBlock()) : null);
+        potHoleRequest.setNumberOfPotholesFilledOnBlock(serviceRequestCsvToServiceRequest.safeParse(potHoleCsv.getNumberOfPotholesFilledOnBlock(), Long::valueOf));
 
         serviceRequestCsvToServiceRequest.manageActivityIfExists(potHoleCsv, potHoleRequest);
         serviceRequestCsvToServiceRequest.manageSsaIfExists(potHoleCsv, potHoleRequest);

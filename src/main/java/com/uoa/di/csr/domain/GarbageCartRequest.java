@@ -10,7 +10,7 @@ import javax.persistence.OneToOne;
 public class GarbageCartRequest extends ServiceRequest implements SsaRequest, ActivityRequest {
 
     @Column(name = "black_carts_delivered")
-    private Integer numberOfBlackCartsDelivered;
+    private Long numberOfBlackCartsDelivered;
 
     @OneToOne
     private Activity activity;
@@ -18,11 +18,11 @@ public class GarbageCartRequest extends ServiceRequest implements SsaRequest, Ac
     @OneToOne
     private SpecialServiceArea specialServiceArea;
 
-    public Integer getNumberOfBlackCartsDelivered() {
+    public Long getNumberOfBlackCartsDelivered() {
         return numberOfBlackCartsDelivered;
     }
 
-    public void setNumberOfBlackCartsDelivered(Integer numberOfBlackCartsDelivered) {
+    public void setNumberOfBlackCartsDelivered(Long numberOfBlackCartsDelivered) {
         this.numberOfBlackCartsDelivered = numberOfBlackCartsDelivered;
     }
 

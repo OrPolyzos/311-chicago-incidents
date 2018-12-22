@@ -13,9 +13,9 @@ public interface RodentBaitingRequestRepository extends CrudRepository<RodentBai
 
     Optional<RodentBaitingRequest> findBySrId(Long id);
 
-    List<RodentBaitingRequest> findAllByNumberOfPremisesBaitedLessThan(Integer limit);
+    List<RodentBaitingRequest> findAllByNumberOfPremisesBaitedLessThan(Number limit);
 
-    List<RodentBaitingRequest> findAllByNumberOfPremisesWithGarbageLessThan(Integer limit);
+    List<RodentBaitingRequest> findAllByNumberOfPremisesWithGarbageLessThan(Number limit);
 
-    List<RodentBaitingRequest> findAllByNumberOfPremisesWithRatsLessThan(Integer limit);
+    List<RodentBaitingRequest> findAllByNumberOfPremisesWithRatsLessThan(Number limit);
 }

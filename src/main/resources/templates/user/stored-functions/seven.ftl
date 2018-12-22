@@ -24,7 +24,7 @@
         <#if results??>
             <#list results as result>
                 <tr>
-                    <td class="text-center">${result.licencePlate}</td>
+                    <td class="text-center">${result.licencePlate!"-"}</td>
                     <td class="text-center">${result.count?c}</td>
                 </tr>
             </#list>

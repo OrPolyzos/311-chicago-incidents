@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @DiscriminatorValue(value = "AbandonedVehicleRequest")
 public class AbandonedVehicleRequest extends ServiceRequest implements SsaRequest, ActivityRequest {
 
-    @Column(name = "licence_plate")
+    @Column(name = "licence_plate", length = 2048)
     private String licensePlate;
 
     @Column(name = "vehicle_make_model")
@@ -25,7 +25,7 @@ public class AbandonedVehicleRequest extends ServiceRequest implements SsaReques
     private String vehicleColor;
 
     @Column(name = "days_reported_as_parked")
-    private Integer howManyDaysReportedAsParked;
+    private Long howManyDaysReportedAsParked;
 
     @OneToOne
     private Activity activity;
@@ -57,11 +57,11 @@ public class AbandonedVehicleRequest extends ServiceRequest implements SsaReques
         this.vehicleColor = vehicleColor;
     }
 
-    public Integer getHowManyDaysReportedAsParked() {
+    public Long getHowManyDaysReportedAsParked() {
         return howManyDaysReportedAsParked;
     }
 
-    public void setHowManyDaysReportedAsParked(Integer howManyDaysReportedAsParked) {
+    public void setHowManyDaysReportedAsParked(Long howManyDaysReportedAsParked) {
         this.howManyDaysReportedAsParked = howManyDaysReportedAsParked;
     }
 

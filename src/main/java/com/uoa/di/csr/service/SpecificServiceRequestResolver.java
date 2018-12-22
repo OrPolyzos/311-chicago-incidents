@@ -12,6 +12,7 @@ import com.uoa.di.csr.converter.service_request.SanitationCodeCsvToSanitationCod
 import com.uoa.di.csr.converter.service_request.ServiceRequestCsvToServiceRequest;
 import com.uoa.di.csr.converter.service_request.TreeDebrisCsvToTreeDebrisRequest;
 import com.uoa.di.csr.converter.service_request.TreeTrimsCsvToTreeTrimsRequest;
+import com.uoa.di.csr.domain.ServiceRequest;
 import com.uoa.di.csr.parser.model.AbandonedVehicleCsv;
 import com.uoa.di.csr.parser.model.GarbageCartCsv;
 import com.uoa.di.csr.parser.model.GraffitiRemovalCsv;
@@ -22,8 +23,9 @@ import com.uoa.di.csr.parser.model.ServiceRequestCsv;
 import com.uoa.di.csr.parser.model.TreeDebrisCsv;
 import com.uoa.di.csr.parser.model.TreeTrimsCsv;
 import com.uoa.di.csr.repository.ServiceRequestRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -35,10 +37,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 @Component
 public class SpecificServiceRequestResolver {
 
+    private static final Logger LOG = LoggerFactory.getLogger(SpecificServiceRequestResolver.class);
     private static final String ABANDONED_VEHICLES = "abandoned-vehicles";
     private static final String GARBAGE_CARTS = "garbage-carts";
     private static final String RODENT_BAITING = "rodent-baiting";
@@ -91,81 +95,87 @@ public class SpecificServiceRequestResolver {
 
     @SuppressWarnings("unchecked")
     public ResponseEntity<String> parseCsv(String csvFileName) {
-        if (RUNNING_ALREADY) {
-            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
-        }
         new Thread(() -> {
-            try {
-                switch (csvFileName) {
-                    case ABANDONED_VEHICLES:
-                        List<AbandonedVehicleCsv> abandonedVehicleCsvList = parseAndSaveServiceRequests(csvFileName, AbandonedVehicleCsv.class).parse();
-                        abandonedVehicleCsvList
-                                .stream()
-                                .map(abandonedVehicleCsvToAbandonedVehicleRequest)
-                                .forEach(serviceRequestRepository::save);
+            LOG.info("Starting parsing...");
+            switch (csvFileName) {
+                case ABANDONED_VEHICLES:
+                    List<AbandonedVehicleCsv> abandonedVehicleCsvList = parseAndSaveServiceRequests(csvFileName, AbandonedVehicleCsv.class).parse();
+                    abandonedVehicleCsvList
+                            .stream()
+                            .map(abandonedVehicleCsvToAbandonedVehicleRequest)
+                            .forEach(saveServiceRequest());
 
-                        break;
-                    case GARBAGE_CARTS:
-                        List<GarbageCartCsv> garbageCartCsvList = parseAndSaveServiceRequests(csvFileName, GarbageCartCsv.class).parse();
-                        garbageCartCsvList
-                                .stream()
-                                .map(garbageCartCsvToGarbageCartRequest)
-                                .forEach(serviceRequestRepository::save);
-                        break;
-                    case RODENT_BAITING:
-                        List<RodentBaitingCsv> rodentBaitingCsvList = parseAndSaveServiceRequests(csvFileName, RodentBaitingCsv.class).parse();
-                        rodentBaitingCsvList
-                                .stream()
-                                .map(rodentBaitingCsvToRodentBaitingRequest)
-                                .forEach(serviceRequestRepository::save);
-                        break;
-                    case POT_HOLES:
-                        List<PotHoleCsv> potHoleCsvList = parseAndSaveServiceRequests(csvFileName, PotHoleCsv.class).parse();
-                        potHoleCsvList
-                                .stream()
-                                .map(potHoleCsvToPotHoleRequest)
-                                .forEach(serviceRequestRepository::save);
-                        break;
-                    case GRAFFITI_REMOVAL:
-                        List<GraffitiRemovalCsv> graffitiRemovalCsvList = parseAndSaveServiceRequests(csvFileName, GraffitiRemovalCsv.class).parse();
-                        graffitiRemovalCsvList
-                                .stream()
-                                .map(graffitiRemovalCsvToGraffitiRemovalRequest)
-                                .forEach(serviceRequestRepository::save);
-                        break;
-                    case TREE_DEBRIS:
-                        List<TreeDebrisCsv> treeDebrisCsvList = parseAndSaveServiceRequests(csvFileName, TreeDebrisCsv.class).parse();
-                        treeDebrisCsvList
-                                .stream()
-                                .map(treeDebrisCsvToTreeDebrisRequest)
-                                .forEach(serviceRequestRepository::save);
-                        break;
-                    case TREE_TRIMS:
-                        List<TreeTrimsCsv> treeTrimsCsvList = parseAndSaveServiceRequests(csvFileName, TreeTrimsCsv.class).parse();
-                        treeTrimsCsvList
-                                .stream()
-                                .map(treeTrimsCsvToTreeTrimsRequest)
-                                .forEach(serviceRequestRepository::save);
-                        break;
-                    case SANITATION_CODE:
-                        List<SanitationCodeCsv> sanitationCodeCsvList = parseAndSaveServiceRequests(csvFileName, SanitationCodeCsv.class).parse();
-                        sanitationCodeCsvList
-                                .stream()
-                                .map(sanitationCodeCsvToSanitationCodeRequest)
-                                .forEach(serviceRequestRepository::save);
-                        break;
-                    default: //alley-lights-out, street-lights-all-out, street-lights-one-out
-                        List<ServiceRequestCsv> serviceRequestCsvList = parseAndSaveServiceRequests(csvFileName, ServiceRequestCsv.class).parse();
-                        serviceRequestCsvList
-                                .stream()
-                                .map(serviceRequestCsvToServiceRequest)
-                                .forEach(serviceRequestRepository::save);
-                }
-            } finally {
-                RUNNING_ALREADY = Boolean.FALSE;
+                    break;
+                case GARBAGE_CARTS:
+                    List<GarbageCartCsv> garbageCartCsvList = parseAndSaveServiceRequests(csvFileName, GarbageCartCsv.class).parse();
+                    garbageCartCsvList
+                            .stream()
+                            .map(garbageCartCsvToGarbageCartRequest)
+                            .forEach(saveServiceRequest());
+                    break;
+                case RODENT_BAITING:
+                    List<RodentBaitingCsv> rodentBaitingCsvList = parseAndSaveServiceRequests(csvFileName, RodentBaitingCsv.class).parse();
+                    rodentBaitingCsvList
+                            .stream()
+                            .map(rodentBaitingCsvToRodentBaitingRequest)
+                            .forEach(saveServiceRequest());
+                    break;
+                case POT_HOLES:
+                    List<PotHoleCsv> potHoleCsvList = parseAndSaveServiceRequests(csvFileName, PotHoleCsv.class).parse();
+                    potHoleCsvList
+                            .stream()
+                            .map(potHoleCsvToPotHoleRequest)
+                            .forEach(saveServiceRequest());
+                    break;
+                case GRAFFITI_REMOVAL:
+                    List<GraffitiRemovalCsv> graffitiRemovalCsvList = parseAndSaveServiceRequests(csvFileName, GraffitiRemovalCsv.class).parse();
+                    graffitiRemovalCsvList
+                            .stream()
+                            .map(graffitiRemovalCsvToGraffitiRemovalRequest)
+                            .forEach(saveServiceRequest());
+                    break;
+                case TREE_DEBRIS:
+                    List<TreeDebrisCsv> treeDebrisCsvList = parseAndSaveServiceRequests(csvFileName, TreeDebrisCsv.class).parse();
+                    treeDebrisCsvList
+                            .stream()
+                            .map(treeDebrisCsvToTreeDebrisRequest)
+                            .forEach(saveServiceRequest());
+                    break;
+                case TREE_TRIMS:
+                    List<TreeTrimsCsv> treeTrimsCsvList = parseAndSaveServiceRequests(csvFileName, TreeTrimsCsv.class).parse();
+                    treeTrimsCsvList
+                            .stream()
+                            .map(treeTrimsCsvToTreeTrimsRequest)
+                            .forEach(saveServiceRequest());
+                    break;
+                case SANITATION_CODE:
+                    List<SanitationCodeCsv> sanitationCodeCsvList = parseAndSaveServiceRequests(csvFileName, SanitationCodeCsv.class).parse();
+                    sanitationCodeCsvList
+                            .stream()
+                            .map(sanitationCodeCsvToSanitationCodeRequest)
+                            .forEach(saveServiceRequest());
+                    break;
+                default: //alley-lights-out, street-lights-all-out, street-lights-one-out
+                    List<ServiceRequestCsv> serviceRequestCsvList = parseAndSaveServiceRequests(csvFileName, ServiceRequestCsv.class).parse();
+                    serviceRequestCsvList
+                            .stream()
+                            .map(serviceRequestCsvToServiceRequest)
+                            .forEach(saveServiceRequest());
+                LOG.info("FINISHED!");
             }
         }).start();
         return ResponseEntity.ok().build();
+    }
+
+    private Consumer<ServiceRequest> saveServiceRequest() {
+        return element -> {
+            try {
+                serviceRequestRepository.save(element);
+                Thread.sleep(5);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        };
     }
 
     @SuppressWarnings("unchecked")

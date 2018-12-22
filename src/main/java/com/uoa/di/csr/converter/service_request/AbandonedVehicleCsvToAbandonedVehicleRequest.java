@@ -20,10 +20,10 @@ public class AbandonedVehicleCsvToAbandonedVehicleRequest implements Function<Ab
         AbandonedVehicleRequest abandonedVehicleRequest = new AbandonedVehicleRequest();
         serviceRequestCsvToServiceRequest.passParentValues(serviceRequest, abandonedVehicleRequest);
         //TODO REVISIT FOR Nullable handling - Maybe set default value to avoid nulls in database
-        abandonedVehicleRequest.setLicensePlate(serviceRequestCsvToServiceRequest.mapToOptional(abandonedVehicleCsv.getLicensePlate()).isPresent() ? abandonedVehicleCsv.getLicensePlate() : null);
-        abandonedVehicleRequest.setVehicleMakeModel(serviceRequestCsvToServiceRequest.mapToOptional(abandonedVehicleCsv.getVehicleMakeModel()).isPresent() ? abandonedVehicleCsv.getVehicleMakeModel() : null);
-        abandonedVehicleRequest.setVehicleColor(serviceRequestCsvToServiceRequest.mapToOptional(abandonedVehicleCsv.getVehicleColor()).isPresent() ? abandonedVehicleCsv.getVehicleColor() : null);
-        abandonedVehicleRequest.setHowManyDaysReportedAsParked(serviceRequestCsvToServiceRequest.mapToOptional(abandonedVehicleCsv.getHowManyDaysReportedAsParked()).isPresent() ? Integer.valueOf(abandonedVehicleCsv.getHowManyDaysReportedAsParked()) : null);
+        abandonedVehicleRequest.setLicensePlate(serviceRequestCsvToServiceRequest.safeParse(abandonedVehicleCsv.getLicensePlate(), Function.identity()));
+        abandonedVehicleRequest.setVehicleMakeModel(serviceRequestCsvToServiceRequest.safeParse(abandonedVehicleCsv.getVehicleMakeModel(), Function.identity()));
+        abandonedVehicleRequest.setHowManyDaysReportedAsParked(serviceRequestCsvToServiceRequest.safeParse(abandonedVehicleCsv.getHowManyDaysReportedAsParked(), Long::valueOf));
+        abandonedVehicleRequest.setVehicleColor(serviceRequestCsvToServiceRequest.safeParse(abandonedVehicleCsv.getVehicleColor(), Function.identity()));
 
         serviceRequestCsvToServiceRequest.manageActivityIfExists(abandonedVehicleCsv, abandonedVehicleRequest);
         serviceRequestCsvToServiceRequest.manageSsaIfExists(abandonedVehicleCsv, abandonedVehicleRequest);

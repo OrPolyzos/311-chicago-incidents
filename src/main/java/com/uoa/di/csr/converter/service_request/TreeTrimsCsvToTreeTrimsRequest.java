@@ -20,7 +20,7 @@ public class TreeTrimsCsvToTreeTrimsRequest implements Function<TreeTrimsCsv, Tr
         TreeTrimsRequest treeTrimsRequest = new TreeTrimsRequest();
         serviceRequestCsvToServiceRequest.passParentValues(serviceRequest, treeTrimsRequest);
         //TODO REVISIT FOR Nullable handling - Maybe set default value to avoid nulls in database
-        treeTrimsRequest.setWhereAreTreesLocated(serviceRequestCsvToServiceRequest.mapToOptional(treeTrimsCsv.getWhereAreTreesLocated()).isPresent() ? treeTrimsCsv.getWhereAreTreesLocated() : null);
+        treeTrimsRequest.setWhereAreTreesLocated(serviceRequestCsvToServiceRequest.safeParse(treeTrimsCsv.getWhereAreTreesLocated(), Function.identity()));
 
         return treeTrimsRequest;
     }

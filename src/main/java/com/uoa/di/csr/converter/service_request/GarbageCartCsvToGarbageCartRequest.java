@@ -24,7 +24,7 @@ public class GarbageCartCsvToGarbageCartRequest implements Function<GarbageCartC
         GarbageCartRequest garbageCartRequest = new GarbageCartRequest();
         serviceRequestCsvToServiceRequest.passParentValues(serviceRequest, garbageCartRequest);
         //TODO REVISIT FOR Nullable handling - Maybe set default value to avoid nulls in database
-        garbageCartRequest.setNumberOfBlackCartsDelivered(serviceRequestCsvToServiceRequest.mapToOptional(garbageCartCsv.getNumberOfBlackCartsDelivered()).isPresent() ? Integer.valueOf(garbageCartCsv.getNumberOfBlackCartsDelivered()) : null);
+        garbageCartRequest.setNumberOfBlackCartsDelivered(serviceRequestCsvToServiceRequest.safeParse(garbageCartCsv.getNumberOfBlackCartsDelivered(), Long::valueOf));
 
         serviceRequestCsvToServiceRequest.manageActivityIfExists(garbageCartCsv, garbageCartRequest);
         serviceRequestCsvToServiceRequest.manageSsaIfExists(garbageCartCsv, garbageCartRequest);

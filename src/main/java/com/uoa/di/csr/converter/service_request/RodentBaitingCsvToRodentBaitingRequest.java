@@ -20,9 +20,9 @@ public class RodentBaitingCsvToRodentBaitingRequest implements Function<RodentBa
         RodentBaitingRequest rodentBaitingRequest = new RodentBaitingRequest();
         serviceRequestCsvToServiceRequest.passParentValues(serviceRequest, rodentBaitingRequest);
         //TODO REVISIT FOR Nullable handling - Maybe set default value to avoid nulls in database
-        rodentBaitingRequest.setNumberOfPremisesBaited(serviceRequestCsvToServiceRequest.mapToOptional(rodentBaitingCsv.getNumberOfPremisesBaited()).isPresent() ? Integer.valueOf(rodentBaitingCsv.getNumberOfPremisesBaited()) : null);
-        rodentBaitingRequest.setNumberOfPremisesWithGarbage(serviceRequestCsvToServiceRequest.mapToOptional(rodentBaitingCsv.getNumberOfPremisesWithGarbage()).isPresent() ? Integer.valueOf(rodentBaitingCsv.getNumberOfPremisesWithGarbage()) : null);
-        rodentBaitingRequest.setNumberOfPremisesWithRats(serviceRequestCsvToServiceRequest.mapToOptional(rodentBaitingCsv.getNumberOfPremisesWithRats()).isPresent() ? Integer.valueOf(rodentBaitingCsv.getNumberOfPremisesWithRats()) : null);
+        rodentBaitingRequest.setNumberOfPremisesBaited(serviceRequestCsvToServiceRequest.safeParse(rodentBaitingCsv.getNumberOfPremisesBaited(), Long::valueOf));
+        rodentBaitingRequest.setNumberOfPremisesWithGarbage(serviceRequestCsvToServiceRequest.safeParse(rodentBaitingCsv.getNumberOfPremisesWithGarbage(), Long::valueOf));
+        rodentBaitingRequest.setNumberOfPremisesWithRats(serviceRequestCsvToServiceRequest.safeParse(rodentBaitingCsv.getNumberOfPremisesWithRats(), Long::valueOf));
 
         serviceRequestCsvToServiceRequest.manageActivityIfExists(rodentBaitingCsv, rodentBaitingRequest);
         serviceRequestCsvToServiceRequest.manageSsaIfExists(rodentBaitingCsv, rodentBaitingRequest);

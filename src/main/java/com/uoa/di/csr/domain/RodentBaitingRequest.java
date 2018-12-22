@@ -18,13 +18,13 @@ import javax.persistence.Table;
 public class RodentBaitingRequest extends ServiceRequest implements SsaRequest, ActivityRequest {
 
     @Column(name = "premises_baited")
-    private Integer numberOfPremisesBaited;
+    private Long numberOfPremisesBaited;
 
     @Column(name = "premises_with_garbage")
-    private Integer numberOfPremisesWithGarbage;
+    private Long numberOfPremisesWithGarbage;
 
     @Column(name = "premises_with_rats")
-    private Integer numberOfPremisesWithRats;
+    private Long numberOfPremisesWithRats;
 
     @OneToOne
     private Activity activity;
@@ -32,27 +32,27 @@ public class RodentBaitingRequest extends ServiceRequest implements SsaRequest, 
     @OneToOne
     private SpecialServiceArea specialServiceArea;
 
-    public Integer getNumberOfPremisesBaited() {
+    public Long getNumberOfPremisesBaited() {
         return numberOfPremisesBaited;
     }
 
-    public void setNumberOfPremisesBaited(Integer numberOfPremisesBaited) {
+    public void setNumberOfPremisesBaited(Long numberOfPremisesBaited) {
         this.numberOfPremisesBaited = numberOfPremisesBaited;
     }
 
-    public Integer getNumberOfPremisesWithGarbage() {
+    public Long getNumberOfPremisesWithGarbage() {
         return numberOfPremisesWithGarbage;
     }
 
-    public void setNumberOfPremisesWithGarbage(Integer numberOfPremisesWithGarbage) {
+    public void setNumberOfPremisesWithGarbage(Long numberOfPremisesWithGarbage) {
         this.numberOfPremisesWithGarbage = numberOfPremisesWithGarbage;
     }
 
-    public Integer getNumberOfPremisesWithRats() {
+    public Long getNumberOfPremisesWithRats() {
         return numberOfPremisesWithRats;
     }
 
-    public void setNumberOfPremisesWithRats(Integer numberOfPremisesWithRats) {
+    public void setNumberOfPremisesWithRats(Long numberOfPremisesWithRats) {
         this.numberOfPremisesWithRats = numberOfPremisesWithRats;
     }
 

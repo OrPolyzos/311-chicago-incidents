@@ -20,7 +20,7 @@ public class SanitationCodeCsvToSanitationCodeRequest implements Function<Sanita
         SanitationCodeRequest sanitationCodeRequest = new SanitationCodeRequest();
         serviceRequestCsvToServiceRequest.passParentValues(serviceRequest, sanitationCodeRequest);
         //TODO REVISIT FOR Nullable handling - Maybe set default value to avoid nulls in database
-        sanitationCodeRequest.setNatureOfThisCodeViolation(serviceRequestCsvToServiceRequest.mapToOptional(sanitationCodeCsv.getNatureOfThisCodeViolation()).isPresent() ? sanitationCodeCsv.getNatureOfThisCodeViolation() : null);
+        sanitationCodeRequest.setNatureOfThisCodeViolation(serviceRequestCsvToServiceRequest.safeParse(sanitationCodeCsv.getNatureOfThisCodeViolation(), Function.identity()));
 
         return sanitationCodeRequest;
     }

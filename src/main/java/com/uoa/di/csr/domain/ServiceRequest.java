@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 public class ServiceRequest {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "service_request_id")
     protected Long srId;
 

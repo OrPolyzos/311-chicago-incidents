@@ -20,7 +20,7 @@ public class TreeDebrisCsvToTreeDebrisRequest implements Function<TreeDebrisCsv,
         TreeDebrisRequest treeDebrisRequest = new TreeDebrisRequest();
         serviceRequestCsvToServiceRequest.passParentValues(serviceRequest, treeDebrisRequest);
         //TODO REVISIT FOR Nullable handling - Maybe set default value to avoid nulls in database
-        treeDebrisRequest.setWhereIsTheDebrisLocated(serviceRequestCsvToServiceRequest.mapToOptional(treeDebrisCsv.getWhereIsDebrisLocated()).isPresent() ? treeDebrisCsv.getWhereIsDebrisLocated() : null);
+        treeDebrisRequest.setWhereIsTheDebrisLocated(serviceRequestCsvToServiceRequest.safeParse(treeDebrisCsv.getWhereIsDebrisLocated(), Function.identity()));
 
         serviceRequestCsvToServiceRequest.manageActivityIfExists(treeDebrisCsv, treeDebrisRequest);
         serviceRequestCsvToServiceRequest.manageSsaIfExists(treeDebrisCsv, treeDebrisRequest);

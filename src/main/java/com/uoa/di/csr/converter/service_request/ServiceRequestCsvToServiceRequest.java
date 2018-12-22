@@ -11,6 +11,8 @@ import com.uoa.di.csr.parser.model.ServiceRequestCsv;
 import com.uoa.di.csr.parser.model.SsaCsv;
 import com.uoa.di.csr.service.ActivityService;
 import com.uoa.di.csr.service.SpecialAreaService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +23,7 @@ import java.util.function.Function;
 @Component
 public class ServiceRequestCsvToServiceRequest implements Function<ServiceRequestCsv, ServiceRequest> {
 
+    private static final Logger LOG = LoggerFactory.getLogger(ServiceRequestCsvToServiceRequest.class);
     private static final String EMPTY_STRING = "";
 
     @Autowired
@@ -34,20 +37,20 @@ public class ServiceRequestCsvToServiceRequest implements Function<ServiceReques
         ServiceRequest serviceRequest = new ServiceRequest();
         serviceRequest.setSrNumber(serviceRequestCsv.getServiceRequestNumber());
         serviceRequest.setSrType(ServiceRequestType.reverseValue(serviceRequestCsv.getServiceRequestType()));
-        serviceRequest.setCreationDateTime(LocalDateTime.parse(serviceRequestCsv.getCreationDateTime()));
+        serviceRequest.setCreationDateTime(safeParse(serviceRequestCsv.getCreationDateTime(), LocalDateTime::parse));
         serviceRequest.setSrStatus(serviceRequestCsv.getStatus());
         serviceRequest.setStreetAddress(serviceRequestCsv.getStreetAddress());
         //TODO REVISIT FOR Nullable handling - Maybe set default value to avoid nulls in database
-        serviceRequest.setCompletionDateTime(mapToOptional(serviceRequestCsv.getCompletionDateTime()).isPresent() ? LocalDateTime.parse(serviceRequestCsv.getCompletionDateTime()) : null);
-        serviceRequest.setZipCode(mapToOptional(serviceRequestCsv.getZipCode()).isPresent() ? Long.valueOf(serviceRequestCsv.getZipCode()) : null);
-        serviceRequest.setCoordinateX(mapToOptional(serviceRequestCsv.getCoordinateX()).isPresent() ? Double.valueOf(serviceRequestCsv.getCoordinateX()) : null);
-        serviceRequest.setCoordinateY(mapToOptional(serviceRequestCsv.getCoordinateY()).isPresent() ? Double.valueOf(serviceRequestCsv.getCoordinateY()) : null);
-        serviceRequest.setWard(mapToOptional(serviceRequestCsv.getWard()).isPresent() ? Integer.valueOf(serviceRequestCsv.getWard()) : null);
-        serviceRequest.setPoliceDistrict(mapToOptional(serviceRequestCsv.getPoliceDistrict()).isPresent() ? Integer.valueOf(serviceRequestCsv.getPoliceDistrict()) : null);
-        serviceRequest.setCommunityArea(mapToOptional(serviceRequestCsv.getCommunityArea()).isPresent() ? Integer.valueOf(serviceRequestCsv.getCommunityArea()) : null);
-        serviceRequest.setLongitude(mapToOptional(serviceRequestCsv.getLongitude()).isPresent() ? Double.valueOf(serviceRequestCsv.getLongitude()) : null);
-        serviceRequest.setLatitude(mapToOptional(serviceRequestCsv.getLatitude()).isPresent() ? Double.valueOf(serviceRequestCsv.getLatitude()) : null);
-        serviceRequest.setLocation(mapToOptional(serviceRequestCsv.getLocation()).isPresent() ? serviceRequestCsv.getLocation() : null);
+        serviceRequest.setCompletionDateTime(safeParse(serviceRequestCsv.getCompletionDateTime(), LocalDateTime::parse));
+        serviceRequest.setZipCode(safeParse(serviceRequestCsv.getZipCode(), Long::valueOf));
+        serviceRequest.setCoordinateX(safeParse(serviceRequestCsv.getCoordinateX(), Double::valueOf));
+        serviceRequest.setCoordinateY(safeParse(serviceRequestCsv.getCoordinateY(), Double::valueOf));
+        serviceRequest.setWard(safeParse(serviceRequestCsv.getWard(), Integer::valueOf));
+        serviceRequest.setPoliceDistrict(safeParse(serviceRequestCsv.getPoliceDistrict(), Integer::valueOf));
+        serviceRequest.setCommunityArea(safeParse(serviceRequestCsv.getCommunityArea(), Integer::valueOf));
+        serviceRequest.setLongitude(safeParse(serviceRequestCsv.getLongitude(), Double::valueOf));
+        serviceRequest.setLatitude(safeParse(serviceRequestCsv.getLatitude(), Double::valueOf));
+        serviceRequest.setLocation(safeParse(serviceRequestCsv.getLocation(), Function.identity()));
         return serviceRequest;
     }
 
@@ -69,13 +72,9 @@ public class ServiceRequestCsvToServiceRequest implements Function<ServiceReques
         serviceRequestToPassTheValues.setLocation(serviceRequest.getLocation());
     }
 
-    protected Optional<String> mapToOptional(String value) {
-        return value == null || value.equals(EMPTY_STRING) ? Optional.empty() : Optional.of(value);
-    }
-
     protected void manageSsaIfExists(SsaCsv ssaCsv, SsaRequest ssaRequest) {
         SpecialServiceArea specialServiceArea = new SpecialServiceArea();
-        specialServiceArea.setSsa(mapToOptional(ssaCsv.getSsa()).isPresent() ? Integer.valueOf(ssaCsv.getSsa()) : null);
+        specialServiceArea.setSsa(safeParse(ssaCsv.getSsa(), Integer::valueOf));
 
         SpecialServiceArea specialServiceAreaToUse = specialAreaService.save(specialServiceArea);
         ssaRequest.setSpecialServiceArea(specialServiceAreaToUse);
@@ -83,10 +82,23 @@ public class ServiceRequestCsvToServiceRequest implements Function<ServiceReques
 
     protected void manageActivityIfExists(ActivityCsv activityCsv, ActivityRequest activityRequest) {
         Activity activity = new Activity();
-        activity.setCurrentActivity(mapToOptional(activityCsv.getCurrentActivity()).isPresent() ? activityCsv.getCurrentActivity() : null);
-        activity.setMostRecentAction(mapToOptional(activityCsv.getMostRecentAction()).isPresent() ? activityCsv.getMostRecentAction() : null);
+        activity.setCurrentActivity(safeParse(activityCsv.getCurrentActivity(), Function.identity()));
+        activity.setMostRecentAction(safeParse(activity.getMostRecentAction(), Function.identity()));
 
         Activity activityToUse = activityService.save(activity);
         activityRequest.setActivity(activityToUse);
+    }
+
+    protected <T> T safeParse(String valueToParse, Function<String, T> mapper) {
+        try {
+            return mapToOptional(valueToParse).isPresent() ? mapper.apply(valueToParse) : null;
+        } catch (Exception ex) {
+            LOG.error("Failed to convert: '{}'", valueToParse);
+            return null;
+        }
+    }
+
+    private Optional<String> mapToOptional(String value) {
+        return value == null || value.equals(EMPTY_STRING) ? Optional.empty() : Optional.of(value);
     }
 }

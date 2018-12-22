@@ -8,7 +8,7 @@ import com.uoa.di.csr.model.search.DaySearchForm;
 import com.uoa.di.csr.model.search.FromTimeToTimeSearchForm;
 import com.uoa.di.csr.model.search.GeneralSearchForm;
 import com.uoa.di.csr.model.search.ServiceRequestTypeSearchForm;
-import com.uoa.di.csr.model.search.SingleIntegerLimitSearchForm;
+import com.uoa.di.csr.model.search.SingleNumberLimitSearchForm;
 import com.uoa.di.csr.repository.RodentBaitingRequestRepository;
 import com.uoa.di.csr.repository.ServiceRequestRepository;
 import com.uoa.di.csr.service.ServiceRequestService;
@@ -226,7 +226,7 @@ public class ServiceRequestController extends BaseController {
     @GetMapping(STORED_FUNCTION_NINE_URI)
     public String getStoredFunctionNineView(Model model) {
         if (!model.containsAttribute(SEARCH_FORM)) {
-            model.addAttribute(SEARCH_FORM, new SingleIntegerLimitSearchForm());
+            model.addAttribute(SEARCH_FORM, new SingleNumberLimitSearchForm());
         }
         model.addAttribute(RODENT_BAITING_URI_HOLDER, STORED_FUNCTION_NINE_URI);
         model.addAttribute(RODENT_BAITING_MESSAGE_HOLDER, NUMBER_OF_PREMISES_BAITED);
@@ -234,7 +234,7 @@ public class ServiceRequestController extends BaseController {
     }
 
     @PostMapping(STORED_FUNCTION_NINE_URI)
-    public String processStoredFunctionNine(Model model, @Valid @ModelAttribute(SEARCH_FORM) SingleIntegerLimitSearchForm searchForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String processStoredFunctionNine(Model model, @Valid @ModelAttribute(SEARCH_FORM) SingleNumberLimitSearchForm searchForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         model.addAttribute(RODENT_BAITING_MESSAGE_HOLDER, NUMBER_OF_PREMISES_BAITED);
         model.addAttribute(RODENT_BAITING_URI_HOLDER, STORED_FUNCTION_NINE_URI);
         if (bindingResult.hasErrors()) {
@@ -249,7 +249,7 @@ public class ServiceRequestController extends BaseController {
     @GetMapping(STORED_FUNCTION_TEN_URI)
     public String getStoredFunctionTenView(Model model) {
         if (!model.containsAttribute(SEARCH_FORM)) {
-            model.addAttribute(SEARCH_FORM, new SingleIntegerLimitSearchForm());
+            model.addAttribute(SEARCH_FORM, new SingleNumberLimitSearchForm());
         }
         model.addAttribute(RODENT_BAITING_URI_HOLDER, STORED_FUNCTION_TEN_URI);
         model.addAttribute(RODENT_BAITING_MESSAGE_HOLDER, NUMBER_OF_PREMISES_WITH_GARBAGE);
@@ -257,7 +257,7 @@ public class ServiceRequestController extends BaseController {
     }
 
     @PostMapping(STORED_FUNCTION_TEN_URI)
-    public String processStoredFunctionTen(Model model, @Valid @ModelAttribute(SEARCH_FORM) SingleIntegerLimitSearchForm searchForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String processStoredFunctionTen(Model model, @Valid @ModelAttribute(SEARCH_FORM) SingleNumberLimitSearchForm searchForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         model.addAttribute(RODENT_BAITING_URI_HOLDER, STORED_FUNCTION_TEN_URI);
         model.addAttribute(RODENT_BAITING_MESSAGE_HOLDER, NUMBER_OF_PREMISES_WITH_GARBAGE);
         if (bindingResult.hasErrors()) {
@@ -272,7 +272,7 @@ public class ServiceRequestController extends BaseController {
     @GetMapping(STORED_FUNCTION_ELEVEN_URI)
     public String getStoredFunctionElevenView(Model model) {
         if (!model.containsAttribute(SEARCH_FORM)) {
-            model.addAttribute(SEARCH_FORM, new SingleIntegerLimitSearchForm());
+            model.addAttribute(SEARCH_FORM, new SingleNumberLimitSearchForm());
         }
         model.addAttribute(RODENT_BAITING_URI_HOLDER, STORED_FUNCTION_ELEVEN_URI);
         model.addAttribute(RODENT_BAITING_MESSAGE_HOLDER, NUMBER_OF_PREMISES_WITH_RATS);
@@ -280,7 +280,7 @@ public class ServiceRequestController extends BaseController {
     }
 
     @PostMapping(STORED_FUNCTION_ELEVEN_URI)
-    public String processStoredFunctionEleven(Model model, @Valid @ModelAttribute(SEARCH_FORM) SingleIntegerLimitSearchForm searchForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String processStoredFunctionEleven(Model model, @Valid @ModelAttribute(SEARCH_FORM) SingleNumberLimitSearchForm searchForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         model.addAttribute(RODENT_BAITING_URI_HOLDER, STORED_FUNCTION_ELEVEN_URI);
         model.addAttribute(RODENT_BAITING_MESSAGE_HOLDER, NUMBER_OF_PREMISES_BAITED);
         if (bindingResult.hasErrors()) {
